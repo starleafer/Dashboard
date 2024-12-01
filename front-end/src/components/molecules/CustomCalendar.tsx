@@ -17,7 +17,7 @@ const CustomCalendar = () => {
   return (
     <Calendar className="border flex flex-col justify-center rounded-xl px-5 py-5 m-5 gap-3">
       <div className="flex justify-between px-4">
-        <Button slot="previous" className="border w-7 h-7 rounded-md"/>
+        <Button slot="previous" className="border w-7 h-7 rounded-md" />
         <Heading />
         <Button slot="next" className="border w-7 h-7 rounded-md" />
       </div>
@@ -26,7 +26,7 @@ const CustomCalendar = () => {
           {(date) => (
             <CalendarCell
               date={date}
-              className="flex justify-center align-middle w-9 h-9 rounded-full hover:bg-white hover:text-primary "
+              className="flex items-center justify-center w-9 h-9 rounded-xl hover:bg-white hover:text-primary"
             />
           )}
         </CalendarGridBody>
