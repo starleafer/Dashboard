@@ -13,7 +13,7 @@ const Todo = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch("http://localhost:3000/tasks");
+        const response = await fetch("http://localhost:5000/tasks");
         const data = await response.json();
         setTasks(data);
       } catch (error) {
@@ -27,7 +27,7 @@ const Todo = () => {
   const addTask = async () => {
     if (task.trim()) {
       try {
-        const response = await fetch("http://localhost:3000/tasks", {
+        const response = await fetch("http://localhost:5000/tasks", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const Todo = () => {
   const saveTask = async (index: number) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/tasks/${tasks[index]._id}`,
+        `http://localhost:5000/tasks/${tasks[index]._id}`,
         {
           method: "PATCH",
           headers: {
@@ -90,7 +90,7 @@ const Todo = () => {
   const deleteTask = async (index: number) => {
     try {
       const deletedTask = await fetch(
-        `http://localhost:3000/tasks/${tasks[index]._id}`,
+        `http://localhost:5000/tasks/${tasks[index]._id}`,
         {
           method: "DELETE",
         }
@@ -128,7 +128,7 @@ const Todo = () => {
             className="primary"
             variant="secondary"
             size="small"
-            onClick={() => finishTask(index)}
+            onPress={() => finishTask(index)}
           />
           {isEditing === index ? (
             <CustomButton
@@ -136,7 +136,7 @@ const Todo = () => {
               className="warning"
               variant="secondary"
               size="small"
-              onClick={() => saveTask(index)}
+              onPress={() => saveTask(index)}
             />
           ) : (
             <CustomButton
@@ -144,7 +144,7 @@ const Todo = () => {
               className="warning"
               variant="secondary"
               size="small"
-              onClick={() => editTask(index)}
+              onPress={() => editTask(index)}
             />
           )}
           <CustomButton
@@ -152,7 +152,7 @@ const Todo = () => {
             className="danger"
             variant="secondary"
             size="small"
-            onClick={() => deleteTask(index)}
+            onPress={() => deleteTask(index)}
           />
         </div>
       </div>
@@ -173,7 +173,7 @@ const Todo = () => {
             icon="plus"
             variant="secondary"
             size="small"
-            onClick={addTask}
+            onPress={addTask}
           />
         </div>
 

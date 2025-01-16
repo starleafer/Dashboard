@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-aria-components";
+import { Button, PressEvent } from "react-aria-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faEdit, faPlus, faSave, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,7 +10,7 @@ type CustomButtonProps = {
   theme?: "primary" | "secondary" | "warning" | "danger";
   className?: "primary" | "secondary" | "warning" | "danger" | undefined;
   size?: "small" | "large" | "undefined";
-  onClick?: () => void;
+  onPress?: (e: PressEvent) => void;
 };
 
 const CustomButton = ({
@@ -20,7 +20,7 @@ const CustomButton = ({
   theme,
   size,
   icon,
-  onClick,
+  onPress,
 }: CustomButtonProps) => {
   let bgColor = "";
   let borderColor = "";
@@ -117,7 +117,7 @@ const CustomButton = ({
         outline-none  
         gap-2   
       `}
-      onPress={onClick}
+      onPress={onPress}
     >
       {iconElement}
       {label}
