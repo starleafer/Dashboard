@@ -55,7 +55,7 @@ const getWeekday = (index: number): string => {
 const getWeatherIcon = (iconCode: string) => {
   const iconMap = {
     "01": { icon: faSun, color: "text-yellow-400" },
-    "02": { icon: faCloudSun, color: "text-gray-200" },
+    "02": { icon: faCloudSun, color: "text-yellow-200" },
     "03": { icon: faCloud, color: "text-gray-200" },
     "04": { icon: faCloud, color: "text-gray-300" },
     "09": { icon: faCloudShowersHeavy, color: "text-blue-400" },
@@ -131,95 +131,69 @@ const WeatherModule = () => {
     }
   };
 
-  // const fetchCurrentLocationWeather = () => {
-  //   navigator.geolocation.getCurrentPosition(
-  //     (position) => {
-  //       const { latitude, longitude } = position.coords;
-  //       fetchWeather(latitude, longitude);
-  //     },
-  //     (error: GeolocationPositionError) => {
-  //       let errorMessage = "Could not get location";
-
-  //       switch (error.code) {
-  //         case error.PERMISSION_DENIED:
-  //           errorMessage =
-  //             "Location access denied. Please enable location services.";
-  //           break;
-  //         case error.POSITION_UNAVAILABLE:
-  //           errorMessage = "Location information unavailable.";
-  //           break;
-  //         case error.TIMEOUT:
-  //           errorMessage = "Location request timed out.";
-  //           break;
-  //       }
-
-  //       setError(errorMessage);
-  //     }
-  //   );
-  // };
-
   return (
     <Module>
       <div className="weather-container h-24 flex items-center justify-between gap-4 ">
         <div className="search-bar flex items-center gap-2">
-          <CustomInput
-            value={city}
-            onChange={(value: string) => setCity(value)}
-            placeholder={city ? city : "Enter city"}
-          />
-          <CustomButton
-            onPress={() => fetchWeather()}
-            variant="secondary"
-            label={loading ? "Loading..." : "Search"}
-          />
-        </div>
-        <div className="search-bar flex items-center gap-2 ">
-          {weather && (
-            <div className="current-weather flex rounded-md p-4 items-center flex-col gap-1 mr-6">
-              <div className="flex items-center gap-3">
-                <h2 className="text-xl font-semibold">{weather.cityName}</h2>
+          <div className="flex gap-2 mr-5">
+            <CustomInput
+              value={city}
+              onChange={(value: string) => setCity(value)}
+              placeholder={city ? city : "Enter city"}
+            />
+            <CustomButton
+              onPress={() => fetchWeather()}
+              variant="secondary"
+              label={loading ? "Loading..." : "Search"}
+            />
+          </div>
+          <div className="search-bar flex items-center gap-2 ">
+            {weather && (
+              <div className="current-weather flex rounded-md p-4 items-center flex-col gap-1 mr-6">
                 <div className="flex items-center gap-3">
-                  <p className="text-lg">{weather.temp}°C</p>
-                  <FontAwesomeIcon
-                    icon={getWeatherIcon(weather.weather[0].icon).icon}
-                    className={`w-8 h-8 ${
-                      getWeatherIcon(weather.weather[0].icon).color
-                    }`}
-                  />
-                </div>
-              </div>
-              <p className="capitalize">{weather.weather[0].description}</p>
-            </div>
-          )}
-        </div>
-
-        {forecast && (
-          <div className="forecast rounded-md flex flex-col gap-2">
-            {/* <h2 className="text-xl font-semibold">5-Day Forecast</h2> */}
-            <ul className="flex gap-4 overflow-x-auto">
-              {forecast.map((day, index) => (
-                <li
-                  key={index}
-                  className="border rounded-md p-3 min-w-[140px] bg-white/5"
-                >
-                  <p className="font-medium mb-2">{getWeekday(index)}</p>
-                  <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-semibold">{weather.cityName}</h2>
+                  <div className="flex items-center gap-3">
+                    <p className="text-lg">{weather.temp}°C</p>
                     <FontAwesomeIcon
-                      icon={getWeatherIcon(day.weather[0].icon).icon}
-                      className={`w-6 h-6 ${
-                        getWeatherIcon(day.weather[0].icon).color
+                      icon={getWeatherIcon(weather.weather[0].icon).icon}
+                      className={`w-8 h-8 ${
+                        getWeatherIcon(weather.weather[0].icon).color
                       }`}
                     />
-                    <p className="text-lg">{day.temp.day}°C</p>
                   </div>
-                  <p className="text-sm capitalize">
-                    {day.weather[0].description}
-                  </p>
-                </li>
-              ))}
-            </ul>
+                </div>
+                <p className="capitalize">{weather.weather[0].description}</p>
+              </div>
+            )}
+            {forecast && (
+              <div className="forecast rounded-md flex flex-col gap-2">
+                {/* <h2 className="text-xl font-semibold">5-Day Forecast</h2> */}
+                <ul className="flex gap-4 overflow-x-auto">
+                  {forecast.map((day, index) => (
+                    <li
+                      key={index}
+                      className="border rounded-md p-3 min-w-[140px] bg-white/5"
+                    >
+                      <p className="font-medium mb-2">{getWeekday(index)}</p>
+                      <div className="flex items-center gap-2">
+                        <FontAwesomeIcon
+                          icon={getWeatherIcon(day.weather[0].icon).icon}
+                          className={`w-6 h-6 ${
+                            getWeatherIcon(day.weather[0].icon).color
+                          }`}
+                        />
+                        <p className="text-lg">{day.temp.day}°C</p>
+                      </div>
+                      <p className="text-sm capitalize">
+                        {day.weather[0].description}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-        )}
+        </div>
         <Clock />
       </div>
       {/* {!weather && !error && (
