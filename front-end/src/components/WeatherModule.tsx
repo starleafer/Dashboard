@@ -15,6 +15,7 @@ import {
   faSmog,
   faCloudSun,
 } from "@fortawesome/free-solid-svg-icons";
+import Clock from "./Clock";
 
 interface WeatherData {
   temp: number;
@@ -159,7 +160,7 @@ const WeatherModule = () => {
 
   return (
     <Module>
-      <div className="weather-container h-24 flex gap-4 ">
+      <div className="weather-container h-24 flex items-center justify-between gap-4 ">
         <div className="search-bar flex items-center gap-2">
           <CustomInput
             value={city}
@@ -174,9 +175,9 @@ const WeatherModule = () => {
         </div>
         <div className="search-bar flex items-center gap-2 ">
           {weather && (
-            <div className="current-weather flex rounded-md p-4 items-center gap-3 mr-6">
-              <h2 className="text-xl font-semibold">{weather.cityName}</h2>
+            <div className="current-weather flex rounded-md p-4 items-center flex-col gap-1 mr-6">
               <div className="flex items-center gap-3">
+                <h2 className="text-xl font-semibold">{weather.cityName}</h2>
                 <div className="flex items-center gap-3">
                   <p className="text-lg">{weather.temp}°C</p>
                   <FontAwesomeIcon
@@ -186,8 +187,8 @@ const WeatherModule = () => {
                     }`}
                   />
                 </div>
-                <p className="capitalize">{weather.weather[0].description}</p>
               </div>
+              <p className="capitalize">{weather.weather[0].description}</p>
             </div>
           )}
         </div>
@@ -219,6 +220,7 @@ const WeatherModule = () => {
             </ul>
           </div>
         )}
+        <Clock />
       </div>
       {/* {!weather && !error && (
         <p className="initial-message text-gray-500 text-center italic">

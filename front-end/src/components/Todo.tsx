@@ -163,7 +163,7 @@ const Todo = () => {
     <Module>
       <div className="w-full p-4">
         <h1 className="text-xl md:text-2xl mb-3 font-bold">Todo</h1>
-        <div className="flex flex-wrap items-center gap-3 mb-6 w-full">
+        <div className="flex items-center gap-3 mb-6 w-full">
           <CustomInput
             value={task}
             hasWidth={true}
