@@ -1,7 +1,7 @@
 import CustomCalendar from "@/components/molecules/CustomCalendar";
 import Stocks from "@/components/Stocks";
 import Todo from "@/components/Todo";
-import Weather from "@/components/Weather";
+import Weather from "@/components/WeatherModule";
 import React from "react";
 
 const Dashboard = () => {
