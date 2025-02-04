@@ -172,7 +172,7 @@ const WeatherModule = () => {
                   {forecast.map((day, index) => (
                     <li
                       key={index}
-                      className="border rounded-md p-3 min-w-[140px] bg-white/5"
+                      className="border rounded-xl p-3 mt-2 mb-2 min-w-[140px] flex flex-col items-center gap-1 bg-white/5"
                     >
                       <p className="font-medium mb-2">{getWeekday(index)}</p>
                       <div className="flex items-center gap-2">
@@ -184,7 +184,7 @@ const WeatherModule = () => {
                         />
                         <p className="text-lg">{day.temp.day}°C</p>
                       </div>
-                      <p className="text-sm capitalize">
+                      <p className="text-sm capitalize text-gray-500">
                         {day.weather[0].description}
                       </p>
                     </li>
