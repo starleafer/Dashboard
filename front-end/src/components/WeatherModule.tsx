@@ -16,6 +16,7 @@ import {
   faCloudSun,
 } from "@fortawesome/free-solid-svg-icons";
 import Clock from "./Clock";
+import { config } from '../config';
 
 interface WeatherData {
   temp: number;
@@ -76,18 +77,22 @@ const WeatherModule = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_KEY = "f6fad2157a3989de7faf7a3c1dd3ce75";
-
   const fetchWeather = async (latitude?: number, longitude?: number) => {
     try {
       setLoading(true);
       setError("");
 
+      const apiKey = config.weatherApiKey;
+      if (!apiKey) {
+        setError("Weather service is not configured");
+        return;
+      }
+
       let lat = latitude;
       let lon = longitude;
 
       if (!lat || !lon) {
-        const geoURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`;
+        const geoURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
         const geoResponse = await axios.get(geoURL);
         if (geoResponse.data.length === 0) {
           setError("City not found");
@@ -98,8 +103,8 @@ const WeatherModule = () => {
         lon = geoResponse.data[0].lon;
       }
 
-      const weatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
-      const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
+      const weatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+      const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
 
       const [weatherResponse, forecastResponse] = await Promise.all([
         axios.get(weatherURL),
