@@ -22,6 +22,13 @@ interface TodoTask {
   completed: boolean;
 }
 
+const taskUpdateEvent = new EventTarget();
+
+export const taskEvents = {
+  target: taskUpdateEvent,
+  TASKS_UPDATED: 'tasksUpdated'
+};
+
 const CustomCalendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [tasks, setTasks] = useState<TodoTask[]>([]);
@@ -80,6 +87,11 @@ const CustomCalendar = () => {
     }
   };
 
+  const updateTasksAndNotify = (newTasks: TodoTask[]) => {
+    setTasks(newTasks);
+    taskUpdateEvent.dispatchEvent(new CustomEvent('tasksUpdated', { detail: newTasks }));
+  };
+
   const addTask = async () => {
     if (!selectedDate || !newTask.trim()) return;
 
@@ -104,7 +116,7 @@ const CustomCalendar = () => {
       }
 
       const newTaskData = await response.json();
-      setTasks((prevTasks) => [...prevTasks, newTaskData]);
+      updateTasksAndNotify([...tasks, newTaskData]);
       setNewTask("");
     } catch (error) {
       console.error("Error adding task:", error);
@@ -121,9 +133,7 @@ const CustomCalendar = () => {
       );
 
       if (response.ok) {
-        setTasks((prevTasks) =>
-          prevTasks.filter((task) => task._id !== taskId)
-        );
+        updateTasksAndNotify(tasks.filter(task => task._id !== taskId));
       } else {
         throw new Error("Failed to delete task");
       }
@@ -140,12 +150,18 @@ const CustomCalendar = () => {
   const saveTask = async (taskId: string) => {
     if (!editText.trim()) return;
     try {
+      const currentTask = tasks.find(t => t._id === taskId);
+      if (!currentTask) return;
+
       const response = await fetch(
         `http://localhost:5000/calendar-tasks/${taskId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title: editText }),
+          body: JSON.stringify({ 
+            title: editText,
+            completed: currentTask.completed 
+          }),
         }
       );
 
@@ -153,8 +169,10 @@ const CustomCalendar = () => {
         throw new Error("Failed to update task");
       }
 
-      const updatedTask = await response.json();
-      setTasks(tasks.map((task) => (task._id === taskId ? updatedTask : task)));
+      const tasksResponse = await fetch("http://localhost:5000/calendar-tasks");
+      const newTasks = await tasksResponse.json();
+      updateTasksAndNotify(newTasks);
+      
       setIsEditing(false);
       setEditText("");
     } catch (error) {
@@ -182,7 +200,7 @@ const CustomCalendar = () => {
       if (response.ok) {
         const tasksResponse = await fetch("http://localhost:5000/calendar-tasks");
         const newTasks = await tasksResponse.json();
-        setTasks(newTasks);
+        updateTasksAndNotify(newTasks);
       }
     } catch (error) {
       console.error("Error updating task:", error);
@@ -252,9 +270,11 @@ const CustomCalendar = () => {
         }}
       >
         <div className="flex justify-between px-4">
-          <Button
+          <CustomButton
+            icon="prev"
+            variant="secondary"
+            size="small"
             slot="previous"
-            className="border w-7 h-7 rounded-md"
             onPress={() => {
               const newDate = new Date(currentMonth);
               newDate.setMonth(currentMonth.getMonth() - 1);
@@ -262,9 +282,11 @@ const CustomCalendar = () => {
             }}
           />
           <Heading />
-          <Button
+          <CustomButton
+            icon="next"
+            variant="secondary"
+            size="small"
             slot="next"
-            className="border w-7 h-7 rounded-md"
             onPress={() => {
               const newDate = new Date(currentMonth);
               newDate.setMonth(currentMonth.getMonth() + 1);
@@ -286,7 +308,7 @@ const CustomCalendar = () => {
                 date={date}
                 className={`
                 flex items-center justify-center w-9 h-9 rounded-xl 
-                ${hasTaskOnDate(date) === "completed" ? "text-blue-800" : ""}
+                ${hasTaskOnDate(date) === "completed" ? "" : ""}
                 ${
                   hasTaskOnDate(date) === "pending" && isDatePassed(date)
                     ? "text-danger"
@@ -294,12 +316,13 @@ const CustomCalendar = () => {
                 }
                 ${
                   hasTaskOnDate(date) === "pending" && !isDatePassed(date)
-                    ? "text-warning"
+                    ? "text-primary"
                     : ""
                 }
                 ${!isDateInDisplayedMonth(date) ? "text-gray-600" : ""}
                 ${isToday(date) ? "bg-primary text-white" : ""}
                 hover:bg-white hover:text-primary
+                active:outline outline-1 outline-primary
                 cursor-pointer
                 relative
               `}
@@ -334,13 +357,14 @@ const CustomCalendar = () => {
             <CustomButton
               icon="plus"
               variant="secondary"
+              className="primary"
               size="small"
               onPress={addTask}
             />
           </div>
           {getTasksForDate(selectedDate).length > 0 && (
             <div className="mt-2">
-              <h4 className="font-medium mb-1">
+              <h4 className="font-medium mb-2 text-primary">
                 Tasks for {selectedDate.toLocaleDateString()}:
               </h4>
               <ul className="space-y-1">

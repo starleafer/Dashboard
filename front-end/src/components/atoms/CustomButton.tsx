@@ -3,6 +3,8 @@ import { Button, PressEvent } from "react-aria-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
+  faChevronLeft,
+  faChevronRight,
   faEdit,
   faPlus,
   faSave,
@@ -12,12 +14,20 @@ import {
 
 type CustomButtonProps = {
   label?: string;
-  icon?: "plus" | "done" | "edit" | "delete" | "save" | "close";
+  icon?: "plus" | "done" | "edit" | "delete" | "save" | "close" | "prev" | "next";
   variant?: "primary" | "secondary" | "text";
   theme?: "primary" | "secondary" | "warning" | "danger";
   className?: "primary" | "secondary" | "warning" | "danger" | undefined;
   size?: "small" | "large" | "undefined";
+  slot?: "previous" | "next";
   onPress?: (e: PressEvent) => void;
+};
+
+const themeColors = {
+  primary: "text-primary border-primary",
+  secondary: "text-secondary border-secondary",
+  warning: "text-warning border-warning",
+  danger: "text-danger border-danger"
 };
 
 const CustomButton = ({
@@ -27,6 +37,7 @@ const CustomButton = ({
   theme,
   size,
   icon,
+  slot,
   onPress,
 }: CustomButtonProps) => {
   let bgColor = "";
@@ -106,17 +117,26 @@ const CustomButton = ({
     case "close":
       iconElement = <FontAwesomeIcon icon={faTimes} className={iconClass} />;
       break;
+    case "prev":
+      iconElement = <FontAwesomeIcon icon={faChevronLeft} className={iconClass} />;
+      break;
+    case "next":
+      iconElement = <FontAwesomeIcon icon={faChevronRight} className={iconClass} />;
+      break;
     default:
       break;
   }
 
   return (
     <Button
+      onPress={onPress}
+      slot={slot}
       className={`
         ${variantClass}
         ${hoverClass}
         ${activeClass}
         ${sizeClass}
+        ${className ? themeColors[className] : ""}
         flex
         items-center
         justify-center 
@@ -124,7 +144,6 @@ const CustomButton = ({
         outline-none  
         gap-2   
       `}
-      onPress={onPress}
     >
       {iconElement}
       {label}
