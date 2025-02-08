@@ -11,7 +11,8 @@ const CalendarTaskSchema = mongoose.Schema({
   },
   completed: {
     type: Boolean,
-    default: false
+    default: false,
+    required: true
   }
 });
 

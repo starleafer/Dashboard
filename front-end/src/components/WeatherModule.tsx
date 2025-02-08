@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Module from "./Module";
 import CustomInput from "./atoms/CustomInput";
 import CustomButton from "./atoms/CustomButton";
@@ -16,7 +15,6 @@ import {
   faCloudSun,
 } from "@fortawesome/free-solid-svg-icons";
 import Clock from "./Clock";
-import { config } from '../config';
 
 interface WeatherData {
   temp: number;
@@ -82,42 +80,43 @@ const WeatherModule = () => {
       setLoading(true);
       setError("");
 
-      const apiKey = config.weatherApiKey;
-      if (!apiKey) {
-        setError("Weather service is not configured");
-        return;
-      }
+      const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
 
       let lat = latitude;
       let lon = longitude;
 
       if (!lat || !lon) {
         const geoURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
-        const geoResponse = await axios.get(geoURL);
-        if (geoResponse.data.length === 0) {
+        const geoResponse = await fetch(geoURL);
+        const geoData = await geoResponse.json();
+
+        if (geoData.length === 0) {
           setError("City not found");
           setLoading(false);
           return;
         }
-        lat = geoResponse.data[0].lat;
-        lon = geoResponse.data[0].lon;
+        lat = geoData[0].lat;
+        lon = geoData[0].lon;
       }
 
       const weatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
       const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
 
       const [weatherResponse, forecastResponse] = await Promise.all([
-        axios.get(weatherURL),
-        axios.get(forecastURL),
+        fetch(weatherURL),
+        fetch(forecastURL),
       ]);
 
+      const weatherData = await weatherResponse.json();
+      const forecastData = await forecastResponse.json();
+
       setWeather({
-        temp: Math.round(weatherResponse.data.main.temp),
-        weather: weatherResponse.data.weather,
-        cityName: city || weatherResponse.data.name,
+        temp: Math.round(weatherData.main.temp),
+        weather: weatherData.weather,
+        cityName: city || weatherData.name,
       });
 
-      const dailyForecasts = forecastResponse.data.list
+      const dailyForecasts = forecastData.list
         .filter((_: any, index: number) => index % 8 === 0)
         .map((item: any) => ({
           temp: {
@@ -172,7 +171,6 @@ const WeatherModule = () => {
             )}
             {forecast && (
               <div className="forecast rounded-md flex flex-col gap-2">
-                {/* <h2 className="text-xl font-semibold">5-Day Forecast</h2> */}
                 <ul className="flex gap-4 overflow-x-auto">
                   {forecast.map((day, index) => (
                     <li

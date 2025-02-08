@@ -1,6 +1,3 @@
-// import axios from 'axios';
-// require('dotenv').config({ path: "../../../.env" });
-
 const API_URL = process.env.DB_URL;
 
 console.log(API_URL);
