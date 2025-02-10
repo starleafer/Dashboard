@@ -21,6 +21,7 @@ type CustomButtonProps = {
   size?: "small" | "large" | "undefined";
   slot?: "previous" | "next";
   onPress?: (e: PressEvent) => void;
+  children?: React.ReactNode;
 };
 
 const themeColors = {

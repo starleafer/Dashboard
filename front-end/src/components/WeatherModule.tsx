@@ -69,7 +69,7 @@ const getWeatherIcon = (iconCode: string) => {
 };
 
 const WeatherModule = () => {
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState("Stockholm");
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [forecast, setForecast] = useState<ForecastDay[] | null>(null);
   const [loading, setLoading] = useState(false);

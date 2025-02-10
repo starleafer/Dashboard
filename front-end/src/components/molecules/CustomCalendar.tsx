@@ -260,9 +260,9 @@ const CustomCalendar = () => {
   if (!isOpen) return null;
 
   return (
-    <div ref={calendarRef} className="flex flex-col border rounded-3xl m-5">
+    <div ref={calendarRef} className="flex flex-col border rounded-3xl m-5 relative">
       <Calendar
-        className=" flex flex-col justify-center rounded-xl px-1 py-1 m-5 gap-3 "
+        className="flex flex-col justify-center rounded-xl px-1 py-1 m-5 gap-3"
         onChange={(date) => {
           setSelectedDate(date.toDate("UTC"));
           setCurrentMonth(date.toDate("UTC"));
@@ -363,7 +363,7 @@ const CustomCalendar = () => {
             />
           </div>
           {getTasksForDate(selectedDate).length > 0 && (
-            <div className="mt-2">
+            <div className="mt-2 max-h-60 overflow-y-auto">
               <h4 className="font-medium mb-2 text-primary">
                 Tasks for {selectedDate.toLocaleDateString()}:
               </h4>

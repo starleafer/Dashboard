@@ -6,14 +6,15 @@ import React from "react";
 
 const Dashboard = () => {
   return (
-    <div className="h-full w-screen border grid-cols-5 overflow-hidden">
+    <div className="w-full min-h-screen grid-cols-5 overflow-y-auto">
       <Weather />
       <div className="col-span-3 grid grid-cols-5">
         <Stocks />
-        <div>
+        <div className="">
           <CustomCalendar />
           <Todo />
         </div>
+
       </div>
     </div>
   );

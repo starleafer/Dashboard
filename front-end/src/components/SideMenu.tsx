@@ -4,7 +4,7 @@ import CustomButton from "./atoms/CustomButton";
 
 const SideMenu = () => {
   return (
-    <div className="border p-5">
+    <div className="p-5">
       <ul className="flex flex-col gap-3">
         <li>
           <CustomButton variant="secondary" label="Dashboard"/>
