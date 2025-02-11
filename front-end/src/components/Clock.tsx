@@ -31,7 +31,7 @@ const Clock = () => {
   };
 
   return (
-    <div className="flex items-center justify-center mr-20 w-32">
+    <div className="flex items-center justify-center w-32">
       <button
         onClick={() => setIs24Hour(!is24Hour)}
         className="text-3xl font-medium hover:text-primary transition-colors"

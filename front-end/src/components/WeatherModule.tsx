@@ -15,6 +15,8 @@ import {
   faCloudSun,
 } from "@fortawesome/free-solid-svg-icons";
 import Clock from "./Clock";
+import CustomSwitch from "./atoms/CustomSwitch";
+import CustomToggleButton from "./atoms/CustomToggleButton";
 
 interface WeatherData {
   temp: number;
@@ -197,15 +199,13 @@ const WeatherModule = () => {
             )}
           </div>
         </div>
-        <Clock />
+        <div className="flex items-center justify-center gap-2 w-56">
+          <Clock />
+          <CustomToggleButton/>
+
+          {/* <CustomSwitch /> */}
+        </div>
       </div>
-      {/* {!weather && !error && (
-        <p className="initial-message text-gray-500 text-center italic">
-          Search for a city or use your current location to get weather
-          information
-        </p>
-      )}
-      {error && <p className="error text-red-500 text-center">{error}</p>} */}
     </Module>
   );
 };

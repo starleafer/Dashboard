@@ -5,7 +5,7 @@ import SideMenu from "@/components/SideMenu";
 
 export default function Home() {
   return (
-    <div className="w-full h-screen  flex flex-col bg-black-800 text-white bg-gray-900">
+    <div className="w-full h-screen  flex flex-col bg-black-800 bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text">
       <div className="flex h-full">
         <SideMenu />
         <Dashboard />

@@ -1,7 +1,6 @@
-// tailwind.config.ts
 import type { Config } from "tailwindcss";
 
-const dark = "#1a202c";
+const dark = "#111827";
 const primary = "#40a4ff";
 const primaryDark = "#20517f";
 const warning = "#f8a65b";
@@ -15,18 +14,32 @@ export default {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: 'class',  
   theme: {
     extend: {
       colors: {
         dark: dark,
-        primary: primary, 
+        primary: primary,
         primaryDark: primaryDark,
-        warning: warning, 
+        warning: warning,
         warningDark: warningDark,
-        danger: danger, 
+        danger: danger,
         dangerDark: dangerDark,
       },
-
+      backgroundColor: {
+        'light-bg': '#ffffff',
+        'light-primary': primary,
+        
+        'dark-bg': dark,
+        'dark-primary': primaryDark,
+      },
+      textColor: {
+        'light-text': dark,
+        'light-primary': primary,
+        
+        'dark-text': '#ffffff',
+        'dark-primary': primaryDark,
+      },
       gridTemplateRows: {
         "7": "repeat(7, minmax(0, 1fr))",
         "8": "repeat(8, minmax(0, 1fr))",
