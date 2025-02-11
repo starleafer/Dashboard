@@ -4,6 +4,7 @@ import CustomInput from "./atoms/CustomInput";
 import { mockSearchResults } from "@/constants/mock";
 import { mockCompanyDetails } from "@/constants/mock";
 import SearchResults from "./SearchResults";
+import StockDetails from "./StockDetails";
 
 const Stocks = () => {
   const [inputValue, setInputValue] = useState("");
@@ -12,13 +13,16 @@ const Stocks = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
         setBestMatches([]);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const clear = () => {
@@ -73,10 +77,8 @@ const Stocks = () => {
         <div className="col-span-1 row-span-2 border p-4">
           <h4>Overview</h4>
         </div>
-
-        {/* Details */}
         <div className="col-span-1 row-span-2 border p-4">
-          <h4>Details</h4>
+          <StockDetails details={mockCompanyDetails} />
         </div>
       </div>
     </div>
