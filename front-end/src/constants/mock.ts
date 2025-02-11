@@ -1,53 +1,25 @@
 export const mockSearchResults = {
-  count: 4,
-  result: [
+  bestMatches: [
     {
-      description: "APPLE INC",
-      displaySymbol: "AAPL",
-      symbol: "AAPL",
-      type: "Common Stock"
+      '1. symbol': 'AAPL',
+      '2. name': 'Apple Inc',
+      '3. type': 'Equity',
+      '4. region': 'United States',
+      '8. currency': 'USD'
     },
-    {
-      description: "MICROSOFT CORP",
-      displaySymbol: "MSFT",
-      symbol: "MSFT",
-      type: "Common Stock"
-    },
-    {
-      description: "APPLE INC",
-      displaySymbol: "AAPL.SW",
-      symbol: "AAPL.SW",
-      type: "Common Stock",
-    },
-    {
-      description: "APPLE INC",
-      displaySymbol: "APC.BE",
-      symbol: "APC.BE",
-      type: "Common Stock",
-    },
-    {
-      description: "APPLE INC",
-      displaySymbol: "APC.DE",
-      symbol: "APC.DE",
-      type: "Common Stock",
-    },
-  ],
+  ]
 };
 
 export const mockCompanyDetails = {
-  country: "US",
-  currency: "USD",
-  exchange: "NASDAQ/NMS (GLOBAL MARKET)",
-  ipo: "1980-12-12",
-  marketCapitalization: 1415993,
-  name: "Apple Inc",
-
-  phone: "14089961010",
-  shareOutstanding: 4375.47998046875,
-  ticker: "AAPL",
-  weburl: "https://www.apple.com/",
-  logo: "https://static.finnhub.io/logo/87cb30d8-80df-11ea-8951-00000000092a.png",
-  finnhubIndustry: "Technology",
+  Symbol: 'AAPL',
+  Name: 'Apple Inc',
+  Description: 'Apple Inc. designs, manufactures, and markets smartphones...',
+  Currency: 'USD',
+  Country: 'USA',
+  Sector: 'Technology',
+  Industry: 'Consumer Electronics',
+  MarketCapitalization: '2000000000',
+  Exchange: 'NASDAQ'
 };
 
 export const mockStockQuote = {
@@ -58,4 +30,5 @@ export const mockStockQuote = {
   pc: 259.45,
   t: 1582641000,
 };
+
 

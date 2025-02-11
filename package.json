@@ -5,6 +5,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/material": "^6.1.6",
+    "apexcharts": "^4.4.0",
+    "react-apexcharts": "^1.7.0",
     "recharts": "^2.15.1"
   }
 }
