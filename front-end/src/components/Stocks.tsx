@@ -5,6 +5,7 @@ import { mockSearchResults } from "@/constants/mock";
 import { mockCompanyDetails } from "@/constants/mock";
 import SearchResults from "./SearchResults";
 import StockDetails from "./StockDetails";
+import StockOverview from "./StockOverview";
 
 const Stocks = () => {
   const [inputValue, setInputValue] = useState("");
@@ -49,8 +50,8 @@ const Stocks = () => {
       <div className="h-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 grid-rows-8 md:grid-rows-7 xl:grid-rows-5 gap-4">
         {/* Header */}
 
-        <div className="col-span-3 row-span-1 flex flex-col justify-center items-start">
-          <h1 className="text-2xl font-bold mb-7">{mockCompanyDetails.name}</h1>
+        <div className="col-span-3 row-span-1 flex justify-start p-3">
+          <h1 className="text-2xl font-bold mr-10">{mockCompanyDetails.name}</h1>
           <div className="relative w-full md:max-w-xs" ref={searchContainerRef}>
             <CustomInput
               value={inputValue}
@@ -73,9 +74,14 @@ const Stocks = () => {
         {/* Chart */}
         <div className="col-span-2 row-span-4 border p-4">Chart</div>
 
-        {/* Overview */}
-        <div className="col-span-1 row-span-2 border p-4">
-          <h4>Overview</h4>
+        <div className="col-span-1 row-span-1 border p-4">
+          <StockOverview
+            symbol={mockCompanyDetails.ticker}
+            price={300}
+            change={30}
+            changePercent={10.0}
+            currency={mockCompanyDetails.currency}
+          />
         </div>
         <div className="col-span-1 row-span-2 border p-4">
           <StockDetails details={mockCompanyDetails} />

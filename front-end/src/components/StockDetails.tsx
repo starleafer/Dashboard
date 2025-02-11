@@ -2,7 +2,7 @@ import React from "react";
 import Module from "./Module";
 
 interface StockDetailsProps {
-  [key: string]: string | number; // Add index signature
+  [key: string]: string | number; 
   name: string;
   country: string;
   currency: string;
