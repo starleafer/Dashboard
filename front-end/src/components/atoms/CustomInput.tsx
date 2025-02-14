@@ -38,13 +38,17 @@ const CustomInput: React.FC<CustomInputProps> = ({
         onChange={handleChange}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
-        className="border rounded-md h-10 bg-transparent p-2 w-full pr-16 text-white"
+        className={`
+          border rounded-md h-10 bg-transparent p-2 w-full pr-16
+          dark:border-dark-border dark:text-dark-text
+          border-light-border text-light-text
+        `}
       />
       <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
         {value && onClear && (
           <button
             onClick={onClear}
-            className="text-white hover:text-gray-300"
+            className="dark:text-white text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
             <FontAwesomeIcon icon={faClose} className="w-4 h-4" />
           </button>

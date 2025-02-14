@@ -34,15 +34,19 @@ export default {
         'dark-primary': primaryDark,
       },
       textColor: {
-        'light-text': dark,
+        'light-text': '#9E9E9E',
         'light-primary': primary,
         
-        'dark-text': '#ffffff',
+        'dark-text': '#FFFFFF',
         'dark-primary': primaryDark,
       },
       gridTemplateRows: {
         "7": "repeat(7, minmax(0, 1fr))",
         "8": "repeat(8, minmax(0, 1fr))",
+      },
+      borderColor: {
+        'light-border': '#9E9E9E',
+        'dark-border': '#FFFFFF',
       },
     },
   },

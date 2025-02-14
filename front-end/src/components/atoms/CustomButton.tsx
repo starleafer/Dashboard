@@ -65,8 +65,8 @@ const CustomButton = ({
       break;
     default:
       bgColor = "bg-white";
-      borderColor = "border border-white";
-      textColor = "text-white";
+      borderColor = "border border-gray-500 dark:border-dark-border border-light-border";
+      textColor = "text-gray-500 dark:text-dark-text";
       hoverClass = "hover:bg-primary hover:text-white";
       break;
   }
