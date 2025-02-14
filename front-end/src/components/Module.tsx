@@ -5,12 +5,13 @@ type ModuleProps = {
   children: ReactNode;
   className?: string;
   noBorder?: boolean;
+  noSpace?: boolean;
 };
 
-const Module = ({ children, className, noBorder }: ModuleProps) => {
+const Module = ({ children, className, noBorder, noSpace }: ModuleProps) => {
   return (
 
-    <div className={`m-5 p-5 rounded-3xl shadow-lg ${className} ${noBorder ? '' : 'border'}`}>
+    <div className={`border-gray-200 dark:border-white ${className} ${noBorder ? '' : 'border'} ${noSpace ? '' : 'p-5 m-5'}`}>
       {children}
     </div>
   );

@@ -76,7 +76,7 @@ const CustomToggleButton = () => {
       }}
       className={`
         flex items-center gap-2 p-2 rounded-md text-lg cursor-pointer 
-        outline-none focus:outline-none border
+        outline-none focus:outline-none 
         ${theme === 'dark' 
           ? 'border-white text-white' 
           : 'border-gray-400 text-gray-400'

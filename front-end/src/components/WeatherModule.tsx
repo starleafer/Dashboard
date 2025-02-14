@@ -155,7 +155,7 @@ const WeatherModule = () => {
           </div>
           <div className="search-bar flex items-center gap-2 ">
             {weather && (
-              <div className="current-weather flex rounded-md p-4 items-center flex-col gap-1 mr-6">
+              <div className="current-weather flex  p-4 items-center flex-col gap-1 mr-6">
                 <div className="flex items-center gap-3">
                   <h2 className="text-xl font-semibold">{weather.cityName}</h2>
                   <div className="flex items-center gap-3">
@@ -172,12 +172,12 @@ const WeatherModule = () => {
               </div>
             )}
             {forecast && (
-              <div className="forecast rounded-md flex flex-col gap-2">
+              <div className="forecast flex flex-col gap-2">
                 <ul className="flex gap-4 overflow-x-auto">
                   {forecast.map((day, index) => (
                     <li
                       key={index}
-                      className="border rounded-xl p-3 mt-2 mb-2 min-w-[140px] flex flex-col items-center gap-1 bg-white/5"
+                      className="border p-3 mt-2 mb-2 min-w-[140px] flex flex-col items-center gap-1 bg-white/5"
                     >
                       <p className="font-medium mb-2">{getWeekday(index)}</p>
                       <div className="flex items-center gap-2">

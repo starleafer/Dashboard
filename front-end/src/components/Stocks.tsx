@@ -1,11 +1,18 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import CustomInput from "./atoms/CustomInput";
-import { mockSearchResults, mockCompanyDetails, mockStockQuote } from "@/constants/mock";
+import {
+  mockSearchResults,
+  mockCompanyDetails,
+  mockStockQuote,
+} from "@/constants/mock";
 import SearchResults from "./SearchResults";
 import StockDetails from "./StockDetails";
 import StockOverview from "./StockOverview";
-import { StockSearchResult, searchStocks } from "@/services/alphaVantageService";
+import {
+  StockSearchResult,
+  searchStocks,
+} from "@/services/alphaVantageService";
 import StockChart from "./StockChart";
 
 const Stocks = () => {
@@ -42,59 +49,55 @@ const Stocks = () => {
     }
     try {
       const results = await searchStocks(value);
-      console.log('Search results received:', results);
+      console.log("Search results received:", results);
       if (results && Array.isArray(results) && results.length > 0) {
-        console.log('Setting best matches:', results);
+        console.log("Setting best matches:", results);
         setBestMatches(results);
       } else {
-        console.log('No results found');
+        console.log("No results found");
         setBestMatches([]);
       }
     } catch (error) {
-      console.error('Error searching:', error);
+      console.error("Error searching:", error);
       setBestMatches([]);
     }
   };
 
   const handleStockSelect = (stock: StockSearchResult) => {
-    console.log('Selected stock:', stock);
+    console.log("Selected stock:", stock);
     setSelectedStock(stock.symbol);
     setInputValue("");
     setBestMatches([]);
   };
 
   return (
-    <div className="col-span-4 border m-5 rounded-3xl shadow-lg p-4">
-      <div className="h-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 grid-rows-8 md:grid-rows-7 xl:grid-rows-5 gap-4">
-        <div className="col-span-3 row-span-1 flex justify-start p-3">
-          <h1 className="text-2xl font-bold mr-10">{selectedStock}</h1>
-          <div className="relative w-full md:max-w-xs" ref={searchContainerRef}>
-            <CustomInput
-              value={inputValue}
-              onChange={setInputValue}
-              placeholder="Search stock..."
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  clear();
-                }
-              }}
-              onClear={clear}
-              onSearch={updateBestMatches}
-            />
-            {inputValue && bestMatches.length > 0 ? (
-              <SearchResults 
-                results={bestMatches} 
-                onSelect={handleStockSelect}
-              />
-            ) : null}
-          </div>
+    <div className="col-span-4 border m-5 py-5 -3xl">
+      <div className="col-span-3 ml-3 row-span-1 mb-3 flex justify-start p-3">
+        <h1 className="text-2xl font-bold mr-10">{selectedStock}</h1>
+        <div className="relative w-full md:max-w-xs" ref={searchContainerRef}>
+          <CustomInput
+            value={inputValue}
+            onChange={setInputValue}
+            placeholder="Search stock..."
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                clear();
+              }
+            }}
+            onClear={clear}
+            onSearch={updateBestMatches}
+          />
+          {inputValue && bestMatches.length > 0 ? (
+            <SearchResults results={bestMatches} onSelect={handleStockSelect} />
+          ) : null}
         </div>
-
-        <div className="col-span-2 row-span-4 border p-4">
+      </div>
+      <div className=" grid grid-cols-1 pt-5 md:grid-cols-2 xl:grid-cols-3 grid-rows-8 md:grid-rows-7 xl:grid-rows-2 gap-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="col-span-2 row-span-3">
           <StockChart symbol={selectedStock} />
         </div>
 
-        <div className="col-span-1 row-span-1 border p-4">
+        {/* <div className="col-span-1 row-span-1 border p-4">
           <StockOverview
             symbol={selectedStock}
             price={stockData?.price || 0}
@@ -102,19 +105,21 @@ const Stocks = () => {
             changePercent={stockData?.changePercent || 0}
             currency="USD"
           />
-        </div>
-        <div className="col-span-1 row-span-2 border p-4">
-          <StockDetails details={{
-            Symbol: selectedStock,
-            Name: selectedStock,
-            Description: "",
-            Currency: "USD",
-            Country: "US",
-            Sector: "",
-            Industry: "",
-            MarketCapitalization: "0",
-            Exchange: "NASDAQ"
-          }} />
+        </div> */}
+        <div className="col-span-1 row-span-3  p-4 ">
+          <StockDetails
+            details={{
+              Symbol: selectedStock,
+              Name: selectedStock,
+              Description: "",
+              Currency: "USD",
+              Country: "US",
+              Sector: "",
+              Industry: "",
+              MarketCapitalization: "0",
+              Exchange: "NASDAQ",
+            }}
+          />
         </div>
       </div>
     </div>

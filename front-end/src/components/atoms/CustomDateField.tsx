@@ -18,7 +18,7 @@ function CustomDateField<T extends DateValue>({
   ...props
 }: MyDateFieldProps<T>) {
   return (
-    <DateField {...props} className="flex flex-col border border-gray-300 rounded-md p-2">
+    <DateField {...props} className="flex flex-col border border-gray-300 p-2">
       <Label className="text-sm font-medium text-gray-700">{label}</Label>
       <DateInput className="flex ">{(segment) => <DateSegment segment={segment} />}</DateInput>
       {description && <Text slot="description">{description}</Text>}

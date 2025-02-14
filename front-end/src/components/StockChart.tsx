@@ -98,11 +98,8 @@ const StockChart = ({ symbol }: { symbol: string }) => {
     return <div className="h-[350px] flex items-center justify-center">No data available</div>;
   }
 
-  console.log('Rendering chart with data:', historicalData);
-
   return (
-    <Module>
-    <div className="p-4">
+    <div className="p-4 ">
       <div className="flex justify-between mb-4">
         <h2 className="text-xl font-semibold">{symbol} Stock Price</h2>
         {stockData && (
@@ -118,10 +115,9 @@ const StockChart = ({ symbol }: { symbol: string }) => {
           data: historicalData
         }]}
         type="line"
-        height={350}
+        height={300}
       />
     </div>
-  </Module>
   );
 };
 

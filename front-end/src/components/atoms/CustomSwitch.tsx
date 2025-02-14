@@ -87,7 +87,7 @@ const CustomSwitch = () => {
             w-8 h-[1.143rem] 
             border
             
-            rounded-full 
+             
             transition-all duration-200
             ${isSelected ? "bg-white border-dark" : "bg-dark border-white"}
             data-[pressed]:border-gray-400
@@ -102,7 +102,7 @@ const CustomSwitch = () => {
             absolute 
             w-3.5 h-3.5 
             left-0.5
-            rounded-full 
+          
             transition-all duration-200
             ${isSelected ? "bg-dark translate-x-full" : "bg-white"}
             data-[pressed]:bg-gray-400

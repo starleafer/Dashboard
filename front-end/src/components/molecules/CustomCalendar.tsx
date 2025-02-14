@@ -260,9 +260,9 @@ const CustomCalendar = () => {
   if (!isOpen) return null;
 
   return (
-    <div ref={calendarRef} className="flex flex-col border rounded-3xl m-5 relative">
+    <div ref={calendarRef} className="flex flex-col border m-5 relative">
       <Calendar
-        className="flex flex-col justify-center rounded-xl px-1 py-1 m-5 gap-3"
+        className="flex flex-col justify-center px-1 py-1 m-5 gap-3"
         onChange={(date) => {
           setSelectedDate(date.toDate("UTC"));
           setCurrentMonth(date.toDate("UTC"));
@@ -307,7 +307,7 @@ const CustomCalendar = () => {
               <CalendarCell
                 date={date}
                 className={`
-                flex items-center justify-center w-9 h-9 rounded-xl 
+                flex items-center justify-center w-9 h-9 
                 ${hasTaskOnDate(date) === "completed" ? "" : ""}
                 ${
                   hasTaskOnDate(date) === "pending" && isDatePassed(date)
@@ -334,7 +334,7 @@ const CustomCalendar = () => {
                 {hoveredDate?.toDateString() ===
                   date.toDate("UTC").toDateString() &&
                   hasTaskOnDate(date) && (
-                    <div className="absolute bottom-full mb-2 bg-gray-800 text-white p-2 rounded-md text-sm whitespace-nowrap">
+                    <div className="absolute bottom-full mb-2 bg-gray-800 text-white p-2 text-sm whitespace-nowrap">
                       {getTasksForDate(date).map((task) => (
                         <div key={task._id}>{task.title}</div>
                       ))}

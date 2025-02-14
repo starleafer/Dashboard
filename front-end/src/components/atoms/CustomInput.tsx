@@ -39,7 +39,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         onKeyDown={onKeyDown}
         placeholder={placeholder}
         className={`
-          border rounded-md h-10 bg-transparent p-2 w-full pr-16
+          border  h-10 bg-transparent p-2 w-full pr-16
           dark:border-dark-border dark:text-dark-text
           border-light-border text-light-text
         `}

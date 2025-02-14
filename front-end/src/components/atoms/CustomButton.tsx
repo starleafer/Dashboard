@@ -90,7 +90,7 @@ const CustomButton = ({
       sizeClass = "h-7 p-2 px-2";
       break;
     case "large":
-      sizeClass = "h-12 py-3 px-3";
+      sizeClass = "h-12 py-3 px-3 min-w-28";
       break;
     default:
       sizeClass = "p-2";
@@ -141,7 +141,7 @@ const CustomButton = ({
         flex
         items-center
         justify-center 
-        rounded-lg 
+      
         outline-none  
         gap-2   
       `}

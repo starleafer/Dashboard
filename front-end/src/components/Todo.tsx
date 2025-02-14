@@ -74,7 +74,7 @@ const Todo = () => {
               task.completed === false && (
                 <div
                   key={task._id}
-                  className={`flex items-center justify-between p-3 rounded-lg ${
+                  className={`flex items-center justify-between p-3  ${
                     isPassed
                       ? "border-danger border-2 text-danger"
                       : "border-primary border-2 text-primary"
