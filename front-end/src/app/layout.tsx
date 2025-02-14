@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
-
+import "./globals.css";
+import { Poppins } from "next/font/google";
 
 export const metadata: Metadata = {
   title: "Daily Helper",

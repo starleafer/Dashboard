@@ -260,7 +260,7 @@ const CustomCalendar = () => {
   if (!isOpen) return null;
 
   return (
-    <div ref={calendarRef} className="flex flex-col border m-5 relative">
+    <div ref={calendarRef} className="flex flex-col m-5 relative bg-light-component dark:bg-dark-component">
       <Calendar
         className="flex flex-col justify-center px-1 py-1 m-5 gap-3"
         onChange={(date) => {
@@ -281,7 +281,7 @@ const CustomCalendar = () => {
               setCurrentMonth(newDate);
             }}
           />
-          <Heading />
+          <Heading className="text-shade dark:text-dark-text" />
           <CustomButton
             icon="next"
             variant="secondary"
@@ -297,7 +297,7 @@ const CustomCalendar = () => {
         <CalendarGrid className="flex flex-col gap-0 ">
           <CalendarGridHeader className="flex  justify-evenly">
             {(day) => (
-              <CalendarHeaderCell className="h-10 w-10 text-gray-500 text-center ">
+              <CalendarHeaderCell className="h-10 w-10 text-center text-shade dark:text-dark-text">
                 {day}
               </CalendarHeaderCell>
             )}
@@ -319,8 +319,8 @@ const CustomCalendar = () => {
                     ? "text-primary"
                     : ""
                 }
-                ${!isDateInDisplayedMonth(date) ? "text-gray-200 dark:text-gray-600" : ""}
-                ${isToday(date) ? "bg-primary text-white" : ""}
+                ${!isDateInDisplayedMonth(date) ? "text-gray-100 dark:text-gray-600" : ""}
+                ${isToday(date) ? "bg-primary text-white" : "text-shade dark:text-dark-text"}
                 hover:bg-white hover:text-primary
                 active:outline outline-1 outline-primary
                 cursor-pointer

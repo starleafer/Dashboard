@@ -24,3 +24,24 @@
     background-color: #718096;
   }
 }
+
+:root {
+  color-scheme: dark;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.dark-tooltip {
+  color: #111827 !important;
+}
+
+.light-tooltip {
+  color: #f9f9f9 !important;
+}
+
+.dark-tooltip .apexcharts-tooltip-text,
+.light-tooltip .apexcharts-tooltip-text {
+  color: inherit !important;
+}

@@ -8,10 +8,10 @@ type ModuleProps = {
   noSpace?: boolean;
 };
 
-const Module = ({ children, className, noBorder, noSpace }: ModuleProps) => {
+const Module = ({ children, className, noSpace }: ModuleProps) => {
   return (
 
-    <div className={`border-gray-200 dark:border-white ${className} ${noBorder ? '' : 'border'} ${noSpace ? '' : 'p-5 m-5'}`}>
+    <div className={`bg-light-component dark:bg-dark-component  ${className} ${noSpace ? '' : 'p-5 m-5'}`}>
       {children}
     </div>
   );

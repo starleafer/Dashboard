@@ -71,9 +71,9 @@ const Stocks = () => {
   };
 
   return (
-    <div className="col-span-4 border m-5 py-5 -3xl">
+    <div className="col-span-4 m-5 py-5 -3xl bg-light-component dark:bg-dark-component">
       <div className="col-span-3 ml-3 row-span-1 mb-3 flex justify-start p-3">
-        <h1 className="text-2xl font-bold mr-10">{selectedStock}</h1>
+        <h1 className="text-2xl font-bold mr-10 text-primary">{selectedStock}</h1>
         <div className="relative w-full md:max-w-xs" ref={searchContainerRef}>
           <CustomInput
             value={inputValue}
@@ -96,17 +96,7 @@ const Stocks = () => {
         <div className="col-span-2 row-span-3">
           <StockChart symbol={selectedStock} />
         </div>
-
-        {/* <div className="col-span-1 row-span-1 border p-4">
-          <StockOverview
-            symbol={selectedStock}
-            price={stockData?.price || 0}
-            change={stockData?.change || 0}
-            changePercent={stockData?.changePercent || 0}
-            currency="USD"
-          />
-        </div> */}
-        <div className="col-span-1 row-span-3  p-4 ">
+        <div className="col-span-1 row-span-3 p-4 text-shade dark:text-dark-text">
           <StockDetails
             details={{
               Symbol: selectedStock,

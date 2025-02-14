@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Module from "./Module";
 
 const Clock = () => {
   const [time, setTime] = useState(new Date());
@@ -22,11 +21,13 @@ const Clock = () => {
         hour12: false,
       });
     } else {
-      return date.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-      }).toLowerCase();
+      return date
+        .toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        })
+        .toLowerCase();
     }
   };
 
@@ -34,7 +35,7 @@ const Clock = () => {
     <div className="flex items-center justify-center w-32">
       <button
         onClick={() => setIs24Hour(!is24Hour)}
-        className="text-3xl font-medium hover:text-primary transition-colors"
+        className="text-3xl font-medium hover:text-primary transition-colors text-shade dark:text-dark-text"
       >
         {formatTime(time)}
       </button>
@@ -42,4 +43,4 @@ const Clock = () => {
   );
 };
 
-export default Clock; 
+export default Clock;

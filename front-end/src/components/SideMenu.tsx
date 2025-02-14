@@ -1,19 +1,21 @@
 "use client";
 import React from "react";
 import CustomButton from "./atoms/CustomButton";
+import Logo from "./Logo";
 
 const SideMenu = () => {
   return (
     <div className="py-5 px-4">
+      <Logo />
       <ul className="flex flex-col gap-3">
         <li>
-          <CustomButton variant="secondary" label="Dashboard" size="large" />
+          <CustomButton variant="primary" label="Dashboard" size="large" />
         </li>
         <li>
-          <CustomButton variant="secondary" label="Profile" size="large" />
+          <CustomButton variant="primary" label="Profile" size="large" />
         </li>
         <li>
-          <CustomButton variant="secondary" label="Settings" size="large" />
+          <CustomButton variant="primary" label="Settings" size="large" />
         </li>
       </ul>
     </div>

@@ -64,10 +64,10 @@ const CustomButton = ({
       activeClass = "active:border-dangerDark active:text-dangerDark";
       break;
     default:
-      bgColor = "bg-white";
-      borderColor = "border border-gray-500 dark:border-dark-border border-light-border";
-      textColor = "text-gray-500 dark:text-dark-text";
-      hoverClass = "hover:bg-primary hover:text-white";
+      bgColor = "bg-light-component dark:bg-dark-component";
+      borderColor = "border border-gray-500 border-primary border-light-border";
+      textColor = "text-primary";
+      hoverClass = "hover:bg-primary hover:text-white dark:hover:bg-dark-primary hover:text-white";
       break;
   }
 
