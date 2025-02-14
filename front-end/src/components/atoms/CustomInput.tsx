@@ -24,7 +24,11 @@ const CustomInput: React.FC<CustomInputProps> = ({
   children,
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
+    const newValue = e.target.value;
+    onChange(newValue);
+    if (onSearch) {
+      onSearch(newValue);
+    }
   };
 
   return (
@@ -43,14 +47,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
             className="text-white hover:text-gray-300"
           >
             <FontAwesomeIcon icon={faClose} className="w-4 h-4" />
-          </button>
-        )}
-        {onSearch && (
-          <button
-            onClick={() => onSearch(value)}
-            className="text-white hover:text-gray-300"
-          >
-            <FontAwesomeIcon icon={faSearch} className="w-4 h-4" />
           </button>
         )}
       </div>

@@ -1,11 +1,13 @@
 const ALPHA_VANTAGE_API_KEY = process.env.NEXT_PUBLIC_ALPHA_VANTAGE_API_KEY;
 
 if (!ALPHA_VANTAGE_API_KEY) {
-  console.warn('Using demo API key - please set NEXT_PUBLIC_ALPHA_VANTAGE_API_KEY in .env');
+  console.warn(
+    "Using demo API key - please set NEXT_PUBLIC_ALPHA_VANTAGE_API_KEY in .env"
+  );
 }
 
 const BASE_URL = "https://www.alphavantage.co/query";
-const API_KEY = ALPHA_VANTAGE_API_KEY || 'demo'; 
+const API_KEY = ALPHA_VANTAGE_API_KEY;
 
 export interface StockSearchResult {
   symbol: string;
@@ -32,15 +34,62 @@ export interface TimeSeriesData {
   y: number;
 }
 
-export const searchStocks = async (
-  symbol: string
-): Promise<StockSearchResult[]> => {
-  const response = await fetch(
-    `${BASE_URL}?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol=${symbol}&apikey=${API_KEY}`
-  );
-  const data = await response.json();
-  console.log(data);
-  return data;
+export const searchStocks = async (query: string): Promise<StockSearchResult[]> => {
+  try {
+    const url = `${BASE_URL}?function=SYMBOL_SEARCH&keywords=${query}&apikey=${API_KEY}`;
+    console.log('Searching stocks:', url);
+
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    console.log('Search response:', data);
+
+    if (data.Information?.includes('API call frequency')) {
+      console.warn('API rate limit reached');
+      return [
+        {
+          symbol: 'AAPL',
+          name: 'Apple Inc',
+          type: 'Equity',
+          region: 'United States',
+          currency: 'USD'
+        },
+        {
+          symbol: 'MSFT',
+          name: 'Microsoft Corporation',
+          type: 'Equity',
+          region: 'United States',
+          currency: 'USD'
+        },
+        {
+          symbol: 'GOOGL',
+          name: 'Alphabet Inc',
+          type: 'Equity',
+          region: 'United States',
+          currency: 'USD'
+        }
+      ].filter(stock => 
+        stock.symbol.toLowerCase().includes(query.toLowerCase()) ||
+        stock.name.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+
+    if (!data.bestMatches) {
+      console.log('No matches found');
+      return [];
+    }
+
+    return data.bestMatches.map((match: any) => ({
+      symbol: match['1. symbol'],
+      name: match['2. name'],
+      type: match['3. type'],
+      region: match['4. region'],
+      currency: match['8. currency']
+    }));
+  } catch (error) {
+    console.error('Error searching stocks:', error);
+    return [];
+  }
 };
 
 export const getCompanyOverview = async (
@@ -54,68 +103,100 @@ export const getCompanyOverview = async (
 
 export const getStockQuote = async (symbol: string) => {
   try {
-    // Use demo endpoint for testing
-    const url = `${BASE_URL}?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=demo`;
-    console.log('Fetching quote:', url);
-    
+    const url = `${BASE_URL}?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol=${symbol}&apikey=${API_KEY}`;
+    console.log("Fetching quote:", url);
+
     const response = await fetch(url);
     const data = await response.json();
-    
-    console.log('Quote response:', data);
+
+    console.log("Quote response:", data);
+
+    if (data.Information?.includes('API call frequency')) {
+      console.warn('API rate limit reached, using mock data');
+      const mockPrice = symbol === 'AAPL' ? 180 : symbol === 'MSFT' ? 400 : 140;
+      return {
+        price: mockPrice + Math.random() * 10 - 5,
+        change: Math.random() * 4 - 2,
+        changePercent: Math.random() * 2 - 1,
+      };
+    }
 
     const timeSeries = data["Time Series (5min)"];
     if (!timeSeries) {
-      console.log('No quote data found');
+      console.log("No quote data found");
       return {
         price: 0,
         change: 0,
-        changePercent: 0
+        changePercent: 0,
       };
     }
-    
+
     const latestTime = Object.keys(timeSeries)[0];
     const latestData = timeSeries[latestTime];
-    
+
     return {
       price: parseFloat(latestData["4. close"] || 0),
-      change: 0, 
-      changePercent: 0
+      change: 0,
+      changePercent: 0,
     };
   } catch (error) {
-    console.error('Error fetching stock quote:', error);
+    console.error("Error fetching stock quote:", error);
     return {
       price: 0,
       change: 0,
-      changePercent: 0
+      changePercent: 0,
     };
   }
 };
 
 export const getHistoricalData = async (symbol: string): Promise<TimeSeriesData[]> => {
   try {
-    const url = `${BASE_URL}?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`;
-    console.log('Fetching historical data:', url);
-    
+    const url = `${BASE_URL}?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${API_KEY}`;
+    console.log("Fetching historical data:", url);
+
     const response = await fetch(url);
     const data = await response.json();
-    
-    console.log('Historical response:', data);
 
+    console.log("Historical response:", data);
+
+    console.warn('Using mock data for historical prices');
+    const mockData: TimeSeriesData[] = [];
+    const basePrice = 
+      symbol === 'AAPL' ? 180 : 
+      symbol === 'MSFT' ? 400 : 
+      symbol === 'GOOGL' ? 140 :
+      symbol === 'IBM' ? 180 : 100;
+    
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      mockData.push({
+        x: date,
+        y: basePrice + (Math.random() * 20 - 10) 
+      });
+    }
+
+    console.log('Generated mock data:', mockData);
+    return mockData;
+
+    // Real API code (commented out for now)
+    /*
     const timeSeriesData = data["Time Series (Daily)"];
     if (!timeSeriesData) {
-      console.log('No historical data found');
+      console.log("No historical data found");
       return [];
     }
 
     return Object.entries(timeSeriesData)
       .map(([date, values]: [string, any]) => ({
         x: new Date(date),
-        y: parseFloat(values["4. close"] || 0)
+        y: parseFloat(values["4. close"] || 0),
       }))
       .reverse()
-      .slice(0, 30); 
+      .slice(0, 30);
+    */
   } catch (error) {
-    console.error('Error fetching historical data:', error);
+    console.error("Error fetching historical data:", error);
     return [];
   }
 };
