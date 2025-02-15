@@ -35,7 +35,7 @@ const Clock = () => {
     <div className="flex items-center justify-center w-32">
       <button
         onClick={() => setIs24Hour(!is24Hour)}
-        className="text-3xl font-medium hover:text-primary transition-colors text-shade dark:text-dark-text"
+        className="text-3xl font-medium whitespace-nowrap hover:text-primary transition-colors text-shade dark:text-dark-text"
       >
         {formatTime(time)}
       </button>

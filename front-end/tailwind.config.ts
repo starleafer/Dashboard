@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const dark = "#111827";
-const light = "#f9f9f9";
+const light = "#eeebeb";
 const darkComponent = "#172135";
 const lightComponent = "white";
 const shade = "#6a717f";

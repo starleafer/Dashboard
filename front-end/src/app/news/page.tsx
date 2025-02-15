@@ -1,14 +1,10 @@
-import SideMenu from "@/components/SideMenu";
-
 export default function NewsPage() {
   return (
-    <div className="flex">
-      <SideMenu />
-      <div className="w-full h-screen flex flex-col bg-light-bg dark:bg-dark-bg">
-        <div className="flex h-full">
-          <h1>News Page</h1>
-        </div>
+    <div className="w-full min-h-screen grid-cols-5 overflow-y-auto flex flex-col">
+      <div className="p-5">
+        <h1 className="text-2xl font-bold text-primary">News</h1>
+        {/* News content */}
       </div>
     </div>
   );
-}
+} 

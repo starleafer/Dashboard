@@ -2,6 +2,7 @@
 import React from "react";
 import CustomButton from "./atoms/CustomButton";
 import { useRouter } from "next/navigation";
+import CustomDisclosure from "./molecules/CustomDisclosure";
 
 const SideMenu = () => {
   const router = useRouter();
@@ -10,16 +11,24 @@ const SideMenu = () => {
     <div className="py-5 px-4">
       <ul className="flex flex-col gap-3">
         <li>
-          <CustomButton variant="primary" label="Dashboard" size="large" onPress={() => router.push("/")} />
+          <CustomButton
+            variant="primary"
+            label="Dashboard"
+            size="large"
+            onPress={() => router.push("/")}
+          />
         </li>
         <li>
-          <CustomButton variant="primary" label="News" size="large" onPress={() => router.push("/news")} />
+          <CustomDisclosure />
+        </li>
+        <li>
+          <CustomButton variant="primary" label="Stocks" size="large" />
+        </li>
+        <li>
+          <CustomButton variant="primary" label="Calendar" size="large" />
         </li>
         <li>
           <CustomButton variant="primary" label="Profile" size="large" />
-        </li>
-        <li>
-          <CustomButton variant="primary" label="Settings" size="large" />
         </li>
       </ul>
     </div>

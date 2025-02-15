@@ -19,9 +19,10 @@ type CustomButtonProps = {
   theme?: "primary" | "secondary" | "warning" | "danger";
   className?: "primary" | "secondary" | "warning" | "danger" | undefined;
   size?: "small" | "large" | "undefined";
-  slot?: "previous" | "next";
+  slot?: "previous" | "next" | "trigger";
   onPress?: (e: PressEvent) => void;
   children?: React.ReactNode;
+  
 };
 
 const themeColors = {
@@ -40,6 +41,7 @@ const CustomButton = ({
   icon,
   slot,
   onPress,
+  children,
 }: CustomButtonProps) => {
   let bgColor = "";
   let borderColor = "";
@@ -141,12 +143,12 @@ const CustomButton = ({
         flex
         items-center
         justify-center 
-      
         outline-none  
         gap-2   
       `}
     >
       {iconElement}
+      {children}
       {label}
     </Button>
   );
