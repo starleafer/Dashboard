@@ -19,7 +19,7 @@ const SideMenu = () => {
           />
         </li>
         <li>
-          <CustomDisclosure />
+          <CustomDisclosure onPress={() => router.push("/news/categories")} />
         </li>
         <li>
           <CustomButton variant="primary" label="Stocks" size="large" />

@@ -1,10 +1,19 @@
 import React, { useState } from "react";
 import CustomButton from "../atoms/CustomButton";
-import { useRouter } from "next/navigation";
+import NewsCategory from "../atoms/NewsCategory";
+import { NEWS_CATEGORIES } from "@/constants/newsCategories";
 
-const CustomDisclosure = () => {
+interface CustomDisclosureProps {
+  onPress: () => void;
+}
+
+const CustomDisclosure = ({ onPress }: CustomDisclosureProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
+
+  const handlePress = () => {
+    setIsOpen(!isOpen);
+    onPress();
+  };
 
   return (
     <div>
@@ -12,7 +21,7 @@ const CustomDisclosure = () => {
         variant="primary"
         size="large"
         label="News"
-        onPress={() => setIsOpen(!isOpen)}
+        onPress={handlePress}
       >
         <svg
           viewBox="0 0 24 24"
@@ -29,54 +38,13 @@ const CustomDisclosure = () => {
       </CustomButton>
       {isOpen && (
         <ul className="pl-1 mt-2 space-y-2">
-          <li>
-            <CustomButton
-              variant="text"
-              label="General"
-              size="small"
-              onPress={() => router.push("/news/general")}
+          {NEWS_CATEGORIES.map((category) => (
+            <NewsCategory
+              key={category.path}
+              label={category.label}
+              path={category.path}
             />
-          </li>
-          <li>
-            <CustomButton
-              variant="text"
-              label="World"
-              size="small"
-              onPress={() => router.push("/news/world")}
-            />
-          </li>
-          <li>
-            <CustomButton
-              variant="text"
-              label="Business"
-              size="small"
-              onPress={() => router.push("/news/business")}
-            />
-          </li>
-          <li>
-            <CustomButton
-              variant="text"
-              label="Technology"
-              size="small"
-              onPress={() => router.push("/news/technology")}
-            />
-          </li>
-          <li>
-            <CustomButton
-              variant="text"
-              label="Sports"
-              size="small"
-              onPress={() => router.push("/news/sports")}
-            />
-          </li>
-          <li>
-            <CustomButton
-              variant="text"
-              label="Science"
-              size="small"
-              onPress={() => router.push("/news/science")}
-            />
-          </li>
+          ))}
         </ul>
       )}
     </div>
