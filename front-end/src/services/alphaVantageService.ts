@@ -103,7 +103,7 @@ export const getCompanyOverview = async (
 
 export const getStockQuote = async (symbol: string) => {
   try {
-    const url = `${BASE_URL}?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol=${symbol}&apikey=${API_KEY}`;
+    const url = `${BASE_URL}?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`;
     console.log("Fetching quote:", url);
 
     const response = await fetch(url);
@@ -121,8 +121,8 @@ export const getStockQuote = async (symbol: string) => {
       };
     }
 
-    const timeSeries = data["Time Series (5min)"];
-    if (!timeSeries) {
+    const quote = data['Global Quote'];
+    if (!quote) {
       console.log("No quote data found");
       return {
         price: 0,
@@ -131,13 +131,10 @@ export const getStockQuote = async (symbol: string) => {
       };
     }
 
-    const latestTime = Object.keys(timeSeries)[0];
-    const latestData = timeSeries[latestTime];
-
     return {
-      price: parseFloat(latestData["4. close"] || 0),
-      change: 0,
-      changePercent: 0,
+      price: parseFloat(quote['05. price']),
+      change: parseFloat(quote['09. change']),
+      changePercent: parseFloat(quote['10. change percent'].replace('%', '')),
     };
   } catch (error) {
     console.error("Error fetching stock quote:", error);

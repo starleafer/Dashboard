@@ -1,15 +1,19 @@
 "use client";
 import React from "react";
 import CustomButton from "./atoms/CustomButton";
-import Logo from "./Logo";
+import { useRouter } from "next/navigation";
 
 const SideMenu = () => {
+  const router = useRouter();
+
   return (
     <div className="py-5 px-4">
-      <Logo />
       <ul className="flex flex-col gap-3">
         <li>
-          <CustomButton variant="primary" label="Dashboard" size="large" />
+          <CustomButton variant="primary" label="Dashboard" size="large" onPress={() => router.push("/")} />
+        </li>
+        <li>
+          <CustomButton variant="primary" label="News" size="large" onPress={() => router.push("/news")} />
         </li>
         <li>
           <CustomButton variant="primary" label="Profile" size="large" />

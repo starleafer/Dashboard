@@ -137,8 +137,13 @@ const WeatherModule = () => {
     }
   };
 
+  useEffect(() => {
+    fetchWeather();
+  }, []);
+
   return (
     <Module>
+      <h1 className="text-2xl font-bold mr-10 text-primary">Weather</h1>
       <div className="weather-container h-24 flex items-center justify-between gap-4 ">
         <div className="search-bar flex items-center gap-2">
           <div className="flex gap-2 mr-5">
@@ -153,7 +158,7 @@ const WeatherModule = () => {
               label={loading ? "Loading..." : "Search"}
             />
           </div>
-          <div className="search-bar flex items-center gap-2 ">
+          <div className="search-bar flex items-center gap-2 mb-8">
             {weather && (
               <div className="current-weather flex  p-4 items-center flex-col gap-1 mr-6">
                 <div className="flex items-center gap-3">
@@ -198,12 +203,6 @@ const WeatherModule = () => {
               </div>
             )}
           </div>
-        </div>
-        <div className="flex items-center justify-center gap-2 w-56">
-          <Clock />
-          <CustomToggleButton/>
-
-          {/* <CustomSwitch /> */}
         </div>
       </div>
     </Module>

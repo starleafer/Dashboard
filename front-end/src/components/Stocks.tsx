@@ -12,8 +12,10 @@ import StockOverview from "./StockOverview";
 import {
   StockSearchResult,
   searchStocks,
+  getCompanyOverview,
 } from "@/services/alphaVantageService";
 import StockChart from "./StockChart";
+import { CompanyOverview } from "@/types/alphaVantageService";
 
 const Stocks = () => {
   const [inputValue, setInputValue] = useState("");
@@ -21,6 +23,7 @@ const Stocks = () => {
   const [bestMatches, setBestMatches] = useState<StockSearchResult[]>([]);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const [stockData, setStockData] = useState(mockStockQuote);
+  const [companyDetails, setCompanyDetails] = useState<CompanyOverview | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -63,11 +66,30 @@ const Stocks = () => {
     }
   };
 
-  const handleStockSelect = (stock: StockSearchResult) => {
+  const handleStockSelect = async (stock: StockSearchResult) => {
     console.log("Selected stock:", stock);
     setSelectedStock(stock.symbol);
     setInputValue("");
     setBestMatches([]);
+
+    try {
+      const details = await getCompanyOverview(stock.symbol);
+      console.log("Company details:", details);
+      setCompanyDetails(details);
+    } catch (error) {
+      console.error("Error fetching company details:", error);
+      setCompanyDetails({
+        Symbol: stock.symbol,
+        Name: stock.name,
+        Description: "",
+        Currency: stock.currency,
+        Country: stock.region,
+        Sector: "N/A",
+        Industry: "N/A",
+        MarketCapitalization: "0",
+        Exchange: "N/A"
+      });
+    }
   };
 
   return (
@@ -97,19 +119,17 @@ const Stocks = () => {
           <StockChart symbol={selectedStock} />
         </div>
         <div className="col-span-1 row-span-3 p-4 text-shade dark:text-dark-text">
-          <StockDetails
-            details={{
-              Symbol: selectedStock,
-              Name: selectedStock,
-              Description: "",
-              Currency: "USD",
-              Country: "US",
-              Sector: "",
-              Industry: "",
-              MarketCapitalization: "0",
-              Exchange: "NASDAQ",
-            }}
-          />
+          <StockDetails details={companyDetails || {
+            Symbol: selectedStock,
+            Name: selectedStock,
+            Description: "",
+            Currency: "USD",
+            Country: "US",
+            Sector: "N/A",
+            Industry: "N/A",
+            MarketCapitalization: "0",
+            Exchange: "N/A"
+          }} />
         </div>
       </div>
     </div>

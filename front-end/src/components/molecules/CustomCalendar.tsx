@@ -319,7 +319,7 @@ const CustomCalendar = () => {
                     ? "text-primary"
                     : ""
                 }
-                ${!isDateInDisplayedMonth(date) ? "text-gray-100 dark:text-gray-600" : ""}
+                ${!isDateInDisplayedMonth(date) ? "text-light-text dark:text-gray-600" : ""}
                 ${isToday(date) ? "bg-primary text-white" : "text-shade dark:text-dark-text"}
                 hover:bg-white hover:text-primary
                 active:outline outline-1 outline-primary

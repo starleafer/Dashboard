@@ -57,6 +57,7 @@ const config: Config = {
         "light-component": lightComponent,
         "dark-component": darkComponent,
         "light-primary": primary,
+        "dark-primary": primaryDark,
       },
     },
   },
