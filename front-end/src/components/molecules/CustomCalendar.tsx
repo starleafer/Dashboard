@@ -26,7 +26,7 @@ const taskUpdateEvent = new EventTarget();
 
 export const taskEvents = {
   target: taskUpdateEvent,
-  TASKS_UPDATED: 'tasksUpdated'
+  TASKS_UPDATED: "tasksUpdated",
 };
 
 const CustomCalendar = () => {
@@ -89,7 +89,9 @@ const CustomCalendar = () => {
 
   const updateTasksAndNotify = (newTasks: TodoTask[]) => {
     setTasks(newTasks);
-    taskUpdateEvent.dispatchEvent(new CustomEvent('tasksUpdated', { detail: newTasks }));
+    taskUpdateEvent.dispatchEvent(
+      new CustomEvent("tasksUpdated", { detail: newTasks })
+    );
   };
 
   const addTask = async () => {
@@ -133,7 +135,7 @@ const CustomCalendar = () => {
       );
 
       if (response.ok) {
-        updateTasksAndNotify(tasks.filter(task => task._id !== taskId));
+        updateTasksAndNotify(tasks.filter((task) => task._id !== taskId));
       } else {
         throw new Error("Failed to delete task");
       }
@@ -150,7 +152,7 @@ const CustomCalendar = () => {
   const saveTask = async (taskId: string) => {
     if (!editText.trim()) return;
     try {
-      const currentTask = tasks.find(t => t._id === taskId);
+      const currentTask = tasks.find((t) => t._id === taskId);
       if (!currentTask) return;
 
       const response = await fetch(
@@ -158,9 +160,9 @@ const CustomCalendar = () => {
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             title: editText,
-            completed: currentTask.completed 
+            completed: currentTask.completed,
           }),
         }
       );
@@ -172,7 +174,7 @@ const CustomCalendar = () => {
       const tasksResponse = await fetch("http://localhost:5000/calendar-tasks");
       const newTasks = await tasksResponse.json();
       updateTasksAndNotify(newTasks);
-      
+
       setIsEditing(false);
       setEditText("");
     } catch (error) {
@@ -184,7 +186,7 @@ const CustomCalendar = () => {
     try {
       const currentTask = tasks.find((t) => t._id === taskId);
       if (!currentTask) return;
-  
+
       const response = await fetch(
         `http://localhost:5000/calendar-tasks/${taskId}`,
         {
@@ -196,9 +198,11 @@ const CustomCalendar = () => {
           }),
         }
       );
-  
+
       if (response.ok) {
-        const tasksResponse = await fetch("http://localhost:5000/calendar-tasks");
+        const tasksResponse = await fetch(
+          "http://localhost:5000/calendar-tasks"
+        );
         const newTasks = await tasksResponse.json();
         updateTasksAndNotify(newTasks);
       }
@@ -260,7 +264,10 @@ const CustomCalendar = () => {
   if (!isOpen) return null;
 
   return (
-    <div ref={calendarRef} className="flex flex-col m-5 relative bg-light-component dark:bg-dark-component rounded-md">
+    <div
+      ref={calendarRef}
+      className="flex flex-col m-5 relative bg-light-component dark:bg-dark-component rounded-md"
+    >
       <Calendar
         className="flex flex-col justify-center px-1 py-1 m-5 gap-3"
         onChange={(date) => {
@@ -307,26 +314,28 @@ const CustomCalendar = () => {
               <CalendarCell
                 date={date}
                 className={`
-                flex items-center justify-center w-9 h-9 
-                ${hasTaskOnDate(date) === "completed" ? "" : ""}
-                ${
-                  hasTaskOnDate(date) === "pending" && isDatePassed(date)
-                    ? "text-danger"
-                    : ""
-                }
-                ${
-                  hasTaskOnDate(date) === "pending" && !isDatePassed(date)
-                    ? "text-primary"
-                    : ""
-                }
-                ${!isDateInDisplayedMonth(date) ? "text-light-text dark:text-gray-600" : ""}
-                ${isToday(date) ? "bg-primary text-white" : "text-shade dark:text-dark-text"}
-                hover:bg-white hover:text-primary
-                active:outline outline-1 outline-primary
-                cursor-pointer
-                relative
-                rounded-md
-              `}
+                  flex items-center justify-center w-9 h-9 
+                  ${
+                    isToday(date)
+                      ? "bg-primary !text-white"
+                      : hasTaskOnDate(date) &&
+                        isDatePassed(date) &&
+                        hasTaskOnDate(date) !== "completed"
+                      ? "!text-danger"
+                      : hasTaskOnDate(date) === "completed"
+                      ? "!text-completed"
+                      : hasTaskOnDate(date) === "pending"
+                      ? "!text-primary"
+                      : !isDateInDisplayedMonth(date)
+                      ? "text-light-text dark:text-gray-600"
+                      : "text-shade dark:text-dark-text"
+                  }
+                  hover:bg-white hover:!text-primary
+                  active:outline outline-1 outline-primary
+                  cursor-pointer
+                  relative
+                  rounded-md
+                `}
                 onPress={() => setSelectedDate(date.toDate("UTC"))}
                 onMouseEnter={() => setHoveredDate(date.toDate("UTC"))}
                 onMouseLeave={() => setHoveredDate(null)}
@@ -382,7 +391,7 @@ const CustomCalendar = () => {
                       <span
                         className={`transition-all duration-200 ${
                           task.completed
-                            ? "text-gray-400 line-through opacity-50"
+                            ? "text-completed line-through opacity-50"
                             : ""
                         }`}
                       >

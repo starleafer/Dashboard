@@ -11,6 +11,7 @@ const warning = "#f8a65b";
 const warningDark = "#946336";
 const danger = "#f23838";
 const dangerDark = "#731a1a";
+const completed = "#22c55e";
 
 const config: Config = {
   content: [
@@ -46,6 +47,7 @@ const config: Config = {
         "dark-primary": primaryDark,
         "light-component": lightComponent,
         "dark-component": darkComponent,
+        "completed": completed,
       },
       gridTemplateRows: {
         "7": "repeat(7, minmax(0, 1fr))",

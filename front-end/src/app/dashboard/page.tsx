@@ -15,7 +15,7 @@ const Dashboard = () => {
         <Stocks />
         <div className={`space-y-4 h-[calc(100vh-80px)] overflow-y-auto`}>
         <CustomCalendar />
-          <Todo />
+          {/* <Todo /> */}
         </div>
       </div>
     </div>
