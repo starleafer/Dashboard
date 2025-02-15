@@ -1,10 +1,13 @@
-import NewsCategories from "@/components/NewsCategories";
 import React from "react";
+import { CATEGORY_CARDS } from "@/constants/categoryCards";
+import CategoryGrid from "@/components/CategoryGrid";
+
+const data = CATEGORY_CARDS;
 
 const NewsCategoriesPage = () => {
   return (
     <div>
-      <NewsCategories />
+      <CategoryGrid data={data} />
     </div>
   );
 };

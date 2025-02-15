@@ -1,10 +1,16 @@
+import NewsArticleGrid from '@/components/NewsArticleGrid';
 import React from 'react'
+import { getLatestNews } from '@/services/newsService';
 
-const TechnologyNewsPage = () => {
+const TechnologyNewsPage = async () => {
+  const newsArticles = await getLatestNews('technology');
+
   return (
     <div className="p-5">
-      <h1 className="text-2xl font-bold text-primary">Technology News</h1>
-      {/* News content */}
+      <NewsArticleGrid 
+        articles={newsArticles} 
+        category="Technology"
+      />
     </div>
   )
 }

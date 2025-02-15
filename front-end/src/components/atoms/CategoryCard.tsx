@@ -20,7 +20,7 @@ const CategoryCard = ({
     <div
       onClick={() => router.push(`/news/${title.toLowerCase()}`)}
       className={`
-        relative flex flex-col items-center justify-center rounded-md cursor-pointer
+        relative flex flex-col items-center justify-end rounded-md cursor-pointer
         hover:scale-[1.02] transition-transform duration-200
         ${size === "large" ? "col-span-2" : ""}
       `}

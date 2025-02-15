@@ -1,13 +1,32 @@
-import NewsLayout from '@/components/NewsLayout';
-import React from 'react'
+"use client";
+import NewsArticleGrid from '@/components/NewsArticleGrid';
+import { getLatestNews } from '@/services/newsService';
+import React, { useEffect, useState } from 'react';
+import type { NewsArticle } from '@/services/newsService';
 
 const GeneralNewsPage = () => {
+  const [articles, setArticles] = useState<NewsArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      const newsArticles = await getLatestNews('general');
+      setArticles(newsArticles);
+      setLoading(false);
+    };
+
+    fetchNews();
+  }, []);
+
   return (
     <div className="p-5">
-      <h1 className="text-2xl font-bold text-primary">General News</h1>
-      <NewsLayout />
+      <NewsArticleGrid 
+        articles={articles}
+        category="General"
+        loading={loading}
+      />
     </div>
-  )
-}
+  );
+};
 
 export default GeneralNewsPage;

@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full dark">
-      <body className={`h-full antialiased overflow-y-auto ${poppins.className}`}>
+      <body className={`h-full antialiased overflow-y-hidden ${poppins.className}`}>
         <ThemeProvider>
           <div className="w-full h-screen flex flex-col bg-light-bg dark:bg-dark-bg text-shade dark:text-dark-text">
             <Header />

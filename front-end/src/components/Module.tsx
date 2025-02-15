@@ -11,7 +11,7 @@ type ModuleProps = {
 const Module = ({ children, className, noSpace }: ModuleProps) => {
   return (
 
-    <div className={`bg-light-component dark:bg-dark-component  ${className} ${noSpace ? '' : 'p-5 m-5'}`}>
+    <div className={`bg-light-component dark:bg-dark-component rounded-md ${className} ${noSpace ? '' : 'p-5 m-5'}`}>
       {children}
     </div>
   );

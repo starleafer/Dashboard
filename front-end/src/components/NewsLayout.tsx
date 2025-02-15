@@ -1,9 +1,12 @@
 import React from 'react'
+import NewsGrid from './CategoryGrid'
 
 
 const NewsLayout = () => {
   return (
-    <div>NewsLayout</div>
+    <div>
+        <NewsGrid />
+    </div>
   )
 }
 

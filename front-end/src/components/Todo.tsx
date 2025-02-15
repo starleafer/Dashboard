@@ -62,7 +62,7 @@ const Todo = () => {
 
   return (
     <Module>
-      <div className="p-4">
+      <div className="p-4 h-[calc(100vh-730px)] overflow-y-auto">
         <h2 className="text-xl font-semibold mb-4">Tasks</h2>
         <div className="space-y-4">
           {tasks.map((task) => {
@@ -74,7 +74,7 @@ const Todo = () => {
               task.completed === false && (
                 <div
                   key={task._id}
-                  className={`flex items-center justify-between p-3  ${
+                  className={`flex items-center justify-between p-3 rounded-md ${
                     isPassed
                       ? "border-danger border-2 text-danger"
                       : "border-primary border-2 text-primary"

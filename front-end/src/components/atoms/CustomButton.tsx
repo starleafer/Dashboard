@@ -145,6 +145,7 @@ const CustomButton = ({
         justify-center 
         outline-none  
         gap-2   
+        rounded-md
       `}
     >
       {iconElement}

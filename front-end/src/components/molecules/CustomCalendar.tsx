@@ -260,7 +260,7 @@ const CustomCalendar = () => {
   if (!isOpen) return null;
 
   return (
-    <div ref={calendarRef} className="flex flex-col m-5 relative bg-light-component dark:bg-dark-component">
+    <div ref={calendarRef} className="flex flex-col m-5 relative bg-light-component dark:bg-dark-component rounded-md">
       <Calendar
         className="flex flex-col justify-center px-1 py-1 m-5 gap-3"
         onChange={(date) => {
@@ -325,6 +325,7 @@ const CustomCalendar = () => {
                 active:outline outline-1 outline-primary
                 cursor-pointer
                 relative
+                rounded-md
               `}
                 onPress={() => setSelectedDate(date.toDate("UTC"))}
                 onMouseEnter={() => setHoveredDate(date.toDate("UTC"))}

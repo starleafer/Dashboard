@@ -93,7 +93,7 @@ const Stocks = () => {
   };
 
   return (
-    <div className="col-span-4 m-5 py-5 -3xl bg-light-component dark:bg-dark-component">
+    <div className="col-span-4 m-5 py-5 -3xl h-[calc(100vh-350px)]  bg-light-component dark:bg-dark-component rounded-md">
       <div className="col-span-3 ml-3 row-span-1 mb-3 flex justify-start p-3">
         <h1 className="text-2xl font-bold mr-10 text-primary">{selectedStock}</h1>
         <div className="relative w-full md:max-w-xs" ref={searchContainerRef}>
