@@ -14,9 +14,6 @@ import {
   faSmog,
   faCloudSun,
 } from "@fortawesome/free-solid-svg-icons";
-import Clock from "./Clock";
-import CustomSwitch from "./atoms/CustomSwitch";
-import CustomToggleButton from "./atoms/CustomToggleButton";
 
 interface WeatherData {
   temp: number;
@@ -55,15 +52,15 @@ const getWeekday = (index: number): string => {
 
 const getWeatherIcon = (iconCode: string) => {
   const iconMap = {
-    "01": { icon: faSun, color: "text-yellow-400" },
-    "02": { icon: faCloudSun, color: "text-yellow-200" },
-    "03": { icon: faCloud, color: "text-gray-200" },
-    "04": { icon: faCloud, color: "text-gray-300" },
-    "09": { icon: faCloudShowersHeavy, color: "text-blue-400" },
-    "10": { icon: faCloudRain, color: "text-blue-500" },
-    "11": { icon: faBolt, color: "text-yellow-500" },
-    "13": { icon: faSnowflake, color: "text-blue-200" },
-    "50": { icon: faSmog, color: "text-gray-400" },
+    "01": { icon: faSun, color: "text-yellow-400" , },
+    "02": { icon: faCloudSun, color: "text-yellow-200" , },
+    "03": { icon: faCloud, color: "text-gray-200",  },
+    "04": { icon: faCloud, color: "text-gray-300" , },
+    "09": { icon: faCloudShowersHeavy, color: "text-blue-400",  },
+    "10": { icon: faCloudRain, color: "text-blue-500",  },
+    "11": { icon: faBolt, color: "text-yellow-500" , },
+    "13": { icon: faSnowflake, color: "text-blue-200", },
+    "50": { icon: faSmog, color: "text-gray-400",  },
   };
 
   const code = iconCode.slice(0, 2) as keyof typeof iconMap;
@@ -185,10 +182,10 @@ const WeatherModule = () => {
                       className="p-3 mt-2 mb-2 min-w-[140px] flex flex-col items-center gap-1 bg-light-bg rounded-md dark:bg-dark-bg"
                     >
                       <p className="font-medium mb-2">{getWeekday(index)}</p>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center flex-col gap-2">
                         <FontAwesomeIcon
                           icon={getWeatherIcon(day.weather[0].icon).icon}
-                          className={`w-6 h-6 ${
+                          className={`w-10 h-10 ${
                             getWeatherIcon(day.weather[0].icon).color
                           }`}
                         />

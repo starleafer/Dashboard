@@ -24,8 +24,7 @@ export default function RootLayout({
     <html lang="en" className="h-full dark">
       <body className={`h-full antialiased overflow-y-hidden ${poppins.className}`}>
         <ThemeProvider>
-          <div className="w-full h-screen flex flex-col bg-light-bg dark:bg-dark-bg text-shade dark:text-dark-text">
-            <Header />
+        <div className="w-full h-screen flex flex-col bg-light-gradient dark:bg-dark-gradient text-shade dark:text-dark-text">            <Header />
             <div className="flex h-full">
               <SideMenu />
               <main className="flex-1">

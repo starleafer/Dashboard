@@ -1,7 +1,9 @@
 import type { Config } from "tailwindcss";
 
 const dark = "#111827";
+const darkShade = "#21304f";
 const light = "#eeebeb";
+const lightShade = "#f9fafb";
 const darkComponent = "#172135";
 const lightComponent = "white";
 const shade = "#6a717f";
@@ -39,15 +41,18 @@ const config: Config = {
         "dark-primary": primaryDark,
         "dark-component": darkComponent,
       },
+      backgroundImage: {
+        "light-gradient": `linear-gradient(to right, ${light} 0%, ${lightShade} 100%)`,
+        "dark-gradient": `linear-gradient(to top , ${dark} 0%, ${darkShade} 100%)`,      },
       textColor: {
         "light-text": light,
-        "primary": primary,
-        "shade": shade,
+        primary: primary,
+        shade: shade,
         "dark-text": "#FFFFFF",
         "dark-primary": primaryDark,
         "light-component": lightComponent,
         "dark-component": darkComponent,
-        "completed": completed,
+        completed: completed,
       },
       gridTemplateRows: {
         "7": "repeat(7, minmax(0, 1fr))",
