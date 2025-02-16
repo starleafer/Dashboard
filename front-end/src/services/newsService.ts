@@ -6,7 +6,8 @@ const CATEGORY_MAP = {
   'technology': 'technology',
   'sports': 'sports',
   'science': 'science',
-  'health': 'health'
+  'health': 'health',
+  'business': 'business'
 } as const;
 
 type CategoryKey = keyof typeof CATEGORY_MAP;

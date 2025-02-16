@@ -229,15 +229,15 @@ const CalendarPage = () => {
   );
 
   return (
-    <div className="flex w-full max-w-[1600px] h-[600px] md:h-[700px] lg:h-[800px] p-5 mt-4 mx-auto px-4 bg-white dark:bg-dark-component rounded-md drop-shadow-xl drop-shadow-gray-500">
-      <div className="w-full">
+    <div className="flex flex-col lg:flex-row w-full max-w-[1600px] min-h-[600px] p-5 mt-4 mx-auto bg-white dark:bg-dark-component rounded-md drop-shadow-xl">
+      <div className="w-full lg:w-3/4 h-[500px] lg:h-auto mb-8 lg:mb-0">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
-            left: "prev,next today",
+            left: "prev,next",
             center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
+            right: "dayGridMonth,timeGridWeek"
           }}
           editable={true}
           selectable={true}
@@ -261,8 +261,8 @@ const CalendarPage = () => {
           height="100%"
         />
       </div>
-      <div  className="ml-10 mt-16 p-5 h-[600px]">
-        <div className="w-[250px] h-[500px] overflow-y-auto ">
+      <div className="w-full lg:w-1/4 lg:ml-8 h-[400px] lg:h-[600px]">
+        <div className="w-full h-full overflow-y-auto px-4">
           {getOverdueTasks().length > 0 && (
             <>
               <h3 className="font-medium text-danger mb-4">Overdue Tasks</h3>
@@ -283,9 +283,7 @@ const CalendarPage = () => {
 
           {getCompletedTasks().length > 0 && (
             <>
-              <h3 className="font-medium text-completed mb-4">
-                Completed Tasks
-              </h3>
+              <h3 className="font-medium text-completed mb-4">Completed Tasks</h3>
               <ul>
                 {getCompletedTasks().map((task) => (
                   <TaskItem key={task._id} task={task} />

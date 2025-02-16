@@ -39,7 +39,7 @@ const NewsArticleGrid = ({
 
   return (
     <div className="flex flex-col items-start w-3/4  p-10 ml-5 h-[calc(100vh-120px)] rounded-md bg-light-component dark:bg-dark-component">
-      <div 
+      <div
         className={`w-full max-w-[1200px] pb-20 pr-4 overflow-y-auto ${styles.customScrollbar}`}
       >
         <h1 className="text-2xl font-bold text-primary">{category} News</h1>

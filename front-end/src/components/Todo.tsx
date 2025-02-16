@@ -62,7 +62,7 @@ const Todo = () => {
 
   return (
     <Module>
-      <div className="p-4 h-[calc(100vh-730px)] overflow-y-auto">
+      <div className="p-4  overflow-y-auto">
         <h2 className="text-xl font-semibold mb-4">Tasks</h2>
         <div className="space-y-4">
           {tasks.map((task) => {

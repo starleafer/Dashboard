@@ -184,21 +184,26 @@ const CustomCalendar = () => {
 
   const finishTask = async (taskId: string) => {
     try {
-      const currentTask = tasks.find(task => task._id === taskId);
+      const currentTask = tasks.find((task) => task._id === taskId);
       if (!currentTask) return;
 
-      const response = await fetch(`http://localhost:5000/calendar-tasks/${taskId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: currentTask.title,
-          date: currentTask.date,
-          completed: !currentTask.completed
-        })
-      });
+      const response = await fetch(
+        `http://localhost:5000/calendar-tasks/${taskId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: currentTask.title,
+            date: currentTask.date,
+            completed: !currentTask.completed,
+          }),
+        }
+      );
 
       if (response.ok) {
-        const tasksResponse = await fetch("http://localhost:5000/calendar-tasks");
+        const tasksResponse = await fetch(
+          "http://localhost:5000/calendar-tasks"
+        );
         const newTasks = await tasksResponse.json();
         updateTasksAndNotify(newTasks);
       }
@@ -262,7 +267,7 @@ const CustomCalendar = () => {
   return (
     <div
       ref={calendarRef}
-      className="flex flex-col m-5 relative bg-light-component dark:bg-dark-component rounded-md"
+      className="flex flex-col m-5 relative bg-light-component dark:bg-dark-component rounded-md  drop-shadow-md dark:bg-dark-component "
     >
       <Calendar
         className="flex flex-col justify-center px-1 py-1 m-5 gap-3"
@@ -298,19 +303,19 @@ const CustomCalendar = () => {
           />
         </div>
         <CalendarGrid className="flex flex-col gap-0 ">
-          <CalendarGridHeader className="flex  justify-evenly">
+          <CalendarGridHeader className="flex justify-evenly">
             {(day) => (
               <CalendarHeaderCell className="h-10 w-10 text-center text-shade dark:text-dark-text">
                 {day}
               </CalendarHeaderCell>
             )}
           </CalendarGridHeader>
-          <CalendarGridBody className="">
+          <CalendarGridBody className="flex flex-col items-center justify-evenly">
             {(date) => (
               <CalendarCell
                 date={date}
                 className={`
-                  flex items-center justify-center w-9 h-9 
+                  flex items-center justify-center w-[38px] h-[38px] 
                   ${
                     isToday(date)
                       ? "bg-primary !text-white"
@@ -382,6 +387,8 @@ const CustomCalendar = () => {
                         value={editText}
                         onChange={(value) => setEditText(value)}
                         placeholder={`Edit task`}
+                        hasWidth
+                        setWidth="w-[10px]"
                       />
                     ) : (
                       <span

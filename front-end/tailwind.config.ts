@@ -44,7 +44,10 @@ const config: Config = {
       },
       backgroundImage: {
         "light-gradient": `linear-gradient(to top right, ${light} 0%, ${lightShade} 100%)`,
-        "dark-gradient": `linear-gradient(to top right, ${dark} 50%, ${darkShade} 100%)`,      },
+        "dark-gradient": `linear-gradient(to top right, ${dark} 50%, ${darkShade} 100%)`,    
+      "light-weather-gradient": `linear-gradient(to bottom , ${light} 0%, ${lightShade} 100%)`,
+      "dark-weather-gradient": `linear-gradient(to bottom , ${dark} 0%, ${darkShade} 100%)`,
+      },
       textColor: {
         "light-text": light,
         primary: primary,

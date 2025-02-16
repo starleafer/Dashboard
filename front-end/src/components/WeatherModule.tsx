@@ -157,20 +157,18 @@ const WeatherModule = () => {
           </div>
           <div className="search-bar flex items-center gap-2 mb-8">
             {weather && (
-              <div className="current-weather flex  p-4 items-center flex-col gap-1 mr-6">
-                <div className="flex items-center gap-3">
-                  <h2 className="text-xl font-semibold">{weather.cityName}</h2>
-                  <div className="flex items-center gap-3">
-                    <p className="text-lg">{weather.temp}°C</p>
+              <div className="current-weather flex p-4 items-center flex-col gap-2 mr-6 min-w-[140px]">
+                  <h2 className="text-xl font-semibold text-primary">{weather.cityName}</h2>
+                  <div className="flex flex-col items-center gap-3">
                     <FontAwesomeIcon
                       icon={getWeatherIcon(weather.weather[0].icon).icon}
                       className={`w-8 h-8 ${
                         getWeatherIcon(weather.weather[0].icon).color
                       }`}
                     />
+                    <p className="text-lg">{weather.temp}°C</p>
                   </div>
-                </div>
-                <p className="capitalize">{weather.weather[0].description}</p>
+                <p className="capitalize text-sm w-full text-center">{weather.weather[0].description}</p>
               </div>
             )}
             {forecast && (
@@ -179,7 +177,7 @@ const WeatherModule = () => {
                   {forecast.map((day, index) => (
                     <li
                       key={index}
-                      className="p-3 mt-2 mb-2 min-w-[140px] flex flex-col items-center gap-1 bg-light rounded-md dark:bg-dark-bg"
+                      className="p-2 min-w-[140px] flex flex-col items-center gap-1 rounded-md bg-light-weather-gradient dark:bg-dark-weather-gradient"
                     >
                       <p className="font-medium mb-2">{getWeekday(index)}</p>
                       <div className="flex items-center flex-col gap-2">

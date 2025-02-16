@@ -22,13 +22,13 @@ const SideMenu = () => {
           <CustomDisclosure onPress={() => router.push("/news/categories")} />
         </li>
         <li>
-          <CustomButton variant="primary" label="Stocks" size="large" />
+          <CustomButton variant="primary" label="Stocks" size="large" onPress={() => router.push("/stocks")} />
         </li>
         <li>
           <CustomButton variant="primary" label="Calendar" size="large" onPress={() => router.push("/calendar")} />
         </li>
         <li>
-          <CustomButton variant="primary" label="Profile" size="large" />
+          <CustomButton variant="primary" label="Profile" size="large" onPress={() => router.push("/profile")} />
         </li>
       </ul>
     </div>
