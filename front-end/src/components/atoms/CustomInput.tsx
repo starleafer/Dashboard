@@ -49,8 +49,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
         placeholder={placeholder}
         className={`
           border h-10 bg-transparent p-2 w-full pr-16
-          dark:border-dark-border dark:text-dark-text
-          border-light-border text-light-text rounded-md
+          border-primary dark:text-dark-text
+           text-light-text rounded-md
         `}
       />
       <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">

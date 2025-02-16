@@ -23,7 +23,9 @@ const Stocks = () => {
   const [bestMatches, setBestMatches] = useState<StockSearchResult[]>([]);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const [stockData, setStockData] = useState(mockStockQuote);
-  const [companyDetails, setCompanyDetails] = useState<CompanyOverview | null>(null);
+  const [companyDetails, setCompanyDetails] = useState<CompanyOverview | null>(
+    null
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -87,15 +89,17 @@ const Stocks = () => {
         Sector: "N/A",
         Industry: "N/A",
         MarketCapitalization: "0",
-        Exchange: "N/A"
+        Exchange: "N/A",
       });
     }
   };
 
   return (
-    <div className="col-span-4 m-5 py-5 -3xl h-[calc(100vh-350px)]  bg-light-component dark:bg-dark-component rounded-md">
+    <div className="col-span-4 m-5 py-5 -3xl h-[calc(100vh-350px)]  bg-light-component drop-shadow-xl drop-shadow-gray-500 dark:bg-dark-component rounded-md">
       <div className="col-span-3 ml-3 row-span-1 mb-3 flex justify-start p-3">
-        <h1 className="text-2xl font-bold mr-10 text-primary">{selectedStock}</h1>
+        <h1 className="text-2xl font-bold mr-10 text-primary">
+          {selectedStock}
+        </h1>
         <div className="relative w-full md:max-w-xs" ref={searchContainerRef}>
           <CustomInput
             value={inputValue}
@@ -119,17 +123,21 @@ const Stocks = () => {
           <StockChart symbol={selectedStock} />
         </div>
         <div className="col-span-1 row-span-3 p-4 text-shade dark:text-dark-text">
-          <StockDetails details={companyDetails || {
-            Symbol: selectedStock,
-            Name: selectedStock,
-            Description: "",
-            Currency: "USD",
-            Country: "US",
-            Sector: "N/A",
-            Industry: "N/A",
-            MarketCapitalization: "0",
-            Exchange: "N/A"
-          }} />
+          <StockDetails
+            details={
+              companyDetails || {
+                Symbol: selectedStock,
+                Name: selectedStock,
+                Description: "",
+                Currency: "USD",
+                Country: "US",
+                Sector: "N/A",
+                Industry: "N/A",
+                MarketCapitalization: "0",
+                Exchange: "N/A",
+              }
+            }
+          />
         </div>
       </div>
     </div>

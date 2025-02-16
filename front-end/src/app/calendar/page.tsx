@@ -229,7 +229,7 @@ const CalendarPage = () => {
   );
 
   return (
-    <div className="flex w-full max-w-[1500px] h-[600px] md:h-[700px] lg:h-[800px] mt-4 mx-auto px-4 ">
+    <div className="flex w-full max-w-[1600px] h-[600px] md:h-[700px] lg:h-[800px] p-5 mt-4 mx-auto px-4 bg-white dark:bg-dark-component rounded-md drop-shadow-xl drop-shadow-gray-500">
       <div className="w-full">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -261,8 +261,8 @@ const CalendarPage = () => {
           height="100%"
         />
       </div>
-      <Module noSpace className="ml-10 mt-16 p-5 h-[600px]">
-        <div className="w-[250px] h-[500px] overflow-y-auto">
+      <div  className="ml-10 mt-16 p-5 h-[600px]">
+        <div className="w-[250px] h-[500px] overflow-y-auto ">
           {getOverdueTasks().length > 0 && (
             <>
               <h3 className="font-medium text-danger mb-4">Overdue Tasks</h3>
@@ -294,7 +294,7 @@ const CalendarPage = () => {
             </>
           )}
         </div>
-      </Module>
+      </div>
     </div>
   );
 };

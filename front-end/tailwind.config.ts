@@ -1,8 +1,8 @@
 import type { Config } from "tailwindcss";
 
 const dark = "#111827";
-const darkShade = "#21304f";
-const light = "#eeebeb";
+const darkShade = "#222f4c";
+const light = "#c5d6e0";
 const lightShade = "#f9fafb";
 const darkComponent = "#172135";
 const lightComponent = "white";
@@ -34,7 +34,7 @@ const config: Config = {
         dangerDark,
       },
       backgroundColor: {
-        "light-bg": light,
+        "light": light,
         "light-primary": primary,
         "light-component": lightComponent,
         "dark-bg": dark,
@@ -43,8 +43,8 @@ const config: Config = {
         "completed": completed,
       },
       backgroundImage: {
-        "light-gradient": `linear-gradient(to right, ${light} 0%, ${lightShade} 100%)`,
-        "dark-gradient": `linear-gradient(to top , ${dark} 0%, ${darkShade} 100%)`,      },
+        "light-gradient": `linear-gradient(to top right, ${light} 0%, ${lightShade} 100%)`,
+        "dark-gradient": `linear-gradient(to top right, ${dark} 50%, ${darkShade} 100%)`,      },
       textColor: {
         "light-text": light,
         primary: primary,
