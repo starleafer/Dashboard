@@ -36,7 +36,7 @@ const StocksPage = () => {
       <div className="w-full lg:w-1/3 flex flex-col gap-6">
         <div className="bg-white dark:bg-dark-component p-5 rounded-md drop-shadow-xl">
           <h2 className="text-xl font-bold text-primary mb-4">Watchlist</h2>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col">
             {selectedStocks.map((symbol) => (
               <StockCard key={symbol} symbol={symbol} />
             ))}
@@ -51,7 +51,7 @@ const StocksPage = () => {
                 className="w-full text-left"
                 onClick={() => setIsOpen(true)}
               >
-                <div className="flex flex-col gap-4 relative rounded-md h-[200px]">
+                <div className="flex flex-col relative rounded-md h-[200px]">
                   <img
                     src={articles[0].urlToImage}
                     alt={articles[0].title}
