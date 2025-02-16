@@ -29,19 +29,35 @@ module.exports.createTask = async (req, res) => {
   }
 };
 
-module.exports.updateTask = async (req, res) => {
+exports.updateTask = async (req, res) => {
   try {
-    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!updatedTask) {
+    const id = req.params.id;
+
+    const currentTask = await Task.findById(id);
+    if (!currentTask) {
       return res.status(404).json({ message: "Task not found" });
     }
-    res.json({ message: "Task updated successfully", task: updatedTask });
+
+    const result = await Task.updateOne(
+      { _id: id },
+      {
+        $set: {
+          date: new Date(req.body.date),
+          title: currentTask.title,
+          completed: currentTask.completed,
+        },
+      }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ message: "Update failed" });
+    }
+
+    const updatedTask = await Task.findById(id);
+    res.json(updatedTask);
   } catch (error) {
-    console.error("Error updating task. \n", error);
-    res.status(500).send("Error updating task.");
+    console.error("Update error:", error);
+    res.status(500).json({ message: error.message });
   }
 };
 

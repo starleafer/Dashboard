@@ -40,6 +40,7 @@ const config: Config = {
         "dark-bg": dark,
         "dark-primary": primaryDark,
         "dark-component": darkComponent,
+        "completed": completed,
       },
       backgroundImage: {
         "light-gradient": `linear-gradient(to right, ${light} 0%, ${lightShade} 100%)`,

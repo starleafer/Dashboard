@@ -15,4 +15,7 @@ const TodoSchema = mongoose.Schema({
   },
 });
 
+TodoSchema.set('toObject', { getters: true });
+TodoSchema.set('toJSON', { getters: true });
+
 module.exports = mongoose.model("Todo", TodoSchema);

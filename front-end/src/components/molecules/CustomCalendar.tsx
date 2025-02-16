@@ -184,30 +184,26 @@ const CustomCalendar = () => {
 
   const finishTask = async (taskId: string) => {
     try {
-      const currentTask = tasks.find((t) => t._id === taskId);
+      const currentTask = tasks.find(task => task._id === taskId);
       if (!currentTask) return;
 
-      const response = await fetch(
-        `http://localhost:5000/calendar-tasks/${taskId}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            completed: !currentTask.completed,
-            title: currentTask.title,
-          }),
-        }
-      );
+      const response = await fetch(`http://localhost:5000/calendar-tasks/${taskId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: currentTask.title,
+          date: currentTask.date,
+          completed: !currentTask.completed
+        })
+      });
 
       if (response.ok) {
-        const tasksResponse = await fetch(
-          "http://localhost:5000/calendar-tasks"
-        );
+        const tasksResponse = await fetch("http://localhost:5000/calendar-tasks");
         const newTasks = await tasksResponse.json();
         updateTasksAndNotify(newTasks);
       }
     } catch (error) {
-      console.error("Error updating task:", error);
+      console.error("Error completing task:", error);
     }
   };
 

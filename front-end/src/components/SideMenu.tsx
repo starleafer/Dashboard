@@ -25,7 +25,7 @@ const SideMenu = () => {
           <CustomButton variant="primary" label="Stocks" size="large" />
         </li>
         <li>
-          <CustomButton variant="primary" label="Calendar" size="large" />
+          <CustomButton variant="primary" label="Calendar" size="large" onPress={() => router.push("/calendar")} />
         </li>
         <li>
           <CustomButton variant="primary" label="Profile" size="large" />

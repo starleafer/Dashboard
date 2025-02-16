@@ -1,9 +1,9 @@
-const CalendarTask = require("../models/CalendarTasks");
+const Task = require("../models/CalendarTasks.js");  
 
 exports.getTasks = async (req, res) => {
   try {
     console.log("Fetching tasks from database...");
-    const tasks = await CalendarTask.find();
+    const tasks = await Task.find();
     console.log("Tasks found:", tasks);
     res.json(tasks);
   } catch (error) {
@@ -15,7 +15,7 @@ exports.getTasks = async (req, res) => {
 exports.createTask = async (req, res) => {
   try {
     console.log("Creating new task:", req.body);
-    const task = new CalendarTask({
+    const task = new Task({
       title: req.body.title,
       date: new Date(req.body.date),
       completed: req.body.completed || false 
@@ -31,7 +31,7 @@ exports.createTask = async (req, res) => {
 
 exports.deleteTask = async (req, res) => {
   try {
-    await CalendarTask.findByIdAndDelete(req.params.id);
+    await Task.findByIdAndDelete(req.params.id);
     res.json({ message: "Task deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -40,46 +40,23 @@ exports.deleteTask = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
   try {
-    console.log('Update request received:', {
-      taskId: req.params.id,
-      body: req.body
-    });
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id,
+      {
+        title: req.body.title,
+        date: new Date(req.body.date),
+        completed: req.body.completed
+      },
+      { new: true }
+    );
 
-    const task = await CalendarTask.findById(req.params.id);
-    if (!task) {
-      console.log('Task not found');
+    if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    console.log('Current task state:', {
-      id: task._id,
-      completed: task.completed,
-      title: task.title
-    });
-
-    task.completed = req.body.completed; 
-    if (req.body.title) {
-      task.title = req.body.title;
-    }
-
-    console.log('About to save task with new state:', {
-      id: task._id,
-      completed: task.completed,
-      title: task.title
-    });
-
-    const updatedTask = await task.save();
-
-    
-    console.log('Task updated successfully:', {
-      id: updatedTask._id,
-      completed: updatedTask.completed,
-      title: updatedTask.title
-    });
-    
-    res.status(200).json(updatedTask);
+    res.json(updatedTask);
   } catch (error) {
-    console.error('Update error:', error);
+    console.error("Update error:", error);
     res.status(500).json({ message: error.message });
   }
 };

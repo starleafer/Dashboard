@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 type CustomInputProps = {
   value: string;
@@ -23,6 +23,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
   onSearch,
   children,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [value]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     onChange(newValue);
@@ -34,12 +42,13 @@ const CustomInput: React.FC<CustomInputProps> = ({
   return (
     <div className="relative w-full md:max-w-xs">
       <input
+        ref={inputRef}
         value={value}
         onChange={handleChange}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
         className={`
-          border  h-10 bg-transparent p-2 w-full pr-16
+          border h-10 bg-transparent p-2 w-full pr-16
           dark:border-dark-border dark:text-dark-text
           border-light-border text-light-text rounded-md
         `}

@@ -2,16 +2,19 @@
 import React, { useState, useEffect } from "react";
 
 const Clock = () => {
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState<Date | null>(null);
   const [is24Hour, setIs24Hour] = useState(false);
 
   useEffect(() => {
+    setTime(new Date());
     const timer = setInterval(() => {
       setTime(new Date());
     }, 1000);
 
     return () => clearInterval(timer);
   }, []);
+
+  if (!time) return null;
 
   const formatTime = (date: Date) => {
     if (is24Hour) {
