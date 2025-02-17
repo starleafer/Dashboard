@@ -14,7 +14,15 @@ import {
 
 type CustomButtonProps = {
   label?: string;
-  icon?: "plus" | "done" | "edit" | "delete" | "save" | "close" | "prev" | "next";
+  icon?:
+    | "plus"
+    | "done"
+    | "edit"
+    | "delete"
+    | "save"
+    | "close"
+    | "prev"
+    | "next";
   variant?: "primary" | "secondary" | "text";
   theme?: "primary" | "secondary" | "warning" | "danger";
   className?: "primary" | "secondary" | "warning" | "danger" | undefined;
@@ -22,14 +30,13 @@ type CustomButtonProps = {
   slot?: "previous" | "next" | "trigger";
   onPress?: (e: PressEvent) => void;
   children?: React.ReactNode;
-  
 };
 
 const themeColors = {
   primary: "text-primary border-primary",
   secondary: "text-secondary border-secondary",
   warning: "text-warning border-warning",
-  danger: "text-danger border-danger"
+  danger: "text-danger border-danger",
 };
 
 const CustomButton = ({
@@ -55,7 +62,13 @@ const CustomButton = ({
   switch (className) {
     case "primary":
       hoverClass = "hover:border-primary hover:text-primary";
-      activeClass = "active:border-primaryDark active:text-primaryDark";
+      activeClass =
+        "active:border-primaryDark active:text-primaryDark active:bg-primary";
+      break;
+    case "secondary":
+      hoverClass = "hover:border-secondary hover:text-secondary";
+      activeClass =
+        "active:bg-primary active:border-secondaryDark active:text-secondaryDark";
       break;
     case "warning":
       hoverClass = "hover:border-warning hover:text-warning";
@@ -69,7 +82,8 @@ const CustomButton = ({
       bgColor = "bg-light-component dark:bg-dark-component";
       borderColor = "border border-gray-500 border-primary border-light-border";
       textColor = "text-primary";
-      hoverClass = "hover:bg-primary hover:text-white dark:hover:bg-dark-primary hover:text-white";
+      hoverClass =
+        "hover:bg-primary hover:text-white dark:hover:bg-dark-primary hover:text-white";
       break;
   }
 
@@ -121,10 +135,14 @@ const CustomButton = ({
       iconElement = <FontAwesomeIcon icon={faTimes} className={iconClass} />;
       break;
     case "prev":
-      iconElement = <FontAwesomeIcon icon={faChevronLeft} className={iconClass} />;
+      iconElement = (
+        <FontAwesomeIcon icon={faChevronLeft} className={iconClass} />
+      );
       break;
     case "next":
-      iconElement = <FontAwesomeIcon icon={faChevronRight} className={iconClass} />;
+      iconElement = (
+        <FontAwesomeIcon icon={faChevronRight} className={iconClass} />
+      );
       break;
     default:
       break;
