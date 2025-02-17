@@ -14,7 +14,7 @@ interface CategoryGridProps {
 
 const CategoryGrid = ({ data = CATEGORY_CARDS }: CategoryGridProps) => {
   return (
-    <div className="flex flex-col items-center w-[90%] p-10 mt-5 ml-5 rounded-md bg-light-component dark:bg-dark-component">
+    <div className="flex flex-col items-center max-w-[1700px] min-h-[600px] p-10 mt-4 ml-5 rounded-md bg-light-component dark:bg-dark-component">
       <div className="w-full max-w-[1600px]">
         <h1 className="text-2xl font-bold text-primary">News Categories</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5">

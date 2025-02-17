@@ -28,7 +28,7 @@ const StocksPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 w-full max-w-[1600px] min-h-[600px] mt-4 mx-auto">
+    <div className="flex flex-col lg:flex-row gap-6 w-full max-w-[1700px] min-h-[600px] mt-4 mx-auto">
       <div className="w-full lg:w-2/3 bg-white dark:bg-dark-component rounded-md drop-shadow-xl">
         <Stocks defaultStock="AAPL" shadow={false} />
       </div>
