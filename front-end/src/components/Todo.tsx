@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import Module from "./Module";
 import { taskEvents } from './molecules/CustomCalendar';
+import { useSession } from "next-auth/react";
+import { calendarService } from "@/services/calendarService";
 
 interface TodoTask {
   _id: string;
@@ -13,8 +15,16 @@ interface TodoTask {
 const Todo = () => {
   const [tasks, setTasks] = useState<TodoTask[]>([]);
   const [today] = useState(new Date());
+  const { data: session } = useSession();
+  const userId = session?.user?.email;
 
   useEffect(() => {
+    const fetchTasks = async () => {
+      if (!userId) return;
+      const tasks = await calendarService.fetchTasks(userId);
+      setTasks(tasks.filter(task => !task.completed));
+    };
+    
     fetchTasks();
 
     const handleTasksUpdated = (event: CustomEvent<TodoTask[]>) => {
@@ -39,26 +49,7 @@ const Todo = () => {
         handleTasksUpdated as EventListener
       );
     };
-  }, []);
-
-  const fetchTasks = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/calendar-tasks");
-      const data = await response.json();
-
-      const unfinishedTasks = data
-        .filter((task: TodoTask) => !task.completed)
-        .sort((a: TodoTask, b: TodoTask) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
-          return dateA.getTime() - dateB.getTime();
-        });
-
-      setTasks(unfinishedTasks);
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-    }
-  };
+  }, [userId]);
 
   return (
     <Module>

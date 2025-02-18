@@ -8,8 +8,11 @@ import Module from "@/components/Module";
 import CustomButton from "@/components/atoms/CustomButton";
 import CustomInput from "@/components/atoms/CustomInput";
 import { calendarService, TodoTask } from "@/services/calendarService";
+import { useSession } from "next-auth/react";
 
 const CalendarPage = () => {
+  const { data: session } = useSession();
+  const userId = session?.user?.email;
   const [tasks, setTasks] = useState<TodoTask[]>([]);
   const [isEditing, setIsEditing] = useState<string | false>(false);
   const [editText, setEditText] = useState("");
@@ -27,8 +30,9 @@ const CalendarPage = () => {
   }, []);
 
   const fetchTasks = async () => {
+    if (!userId) return;
     try {
-      const data = await calendarService.fetchTasks();
+      const data = await calendarService.fetchTasks(userId);
       const sortedTasks = data.sort((a: TodoTask, b: TodoTask) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
@@ -40,28 +44,33 @@ const CalendarPage = () => {
     }
   };
 
-  const handleDateClick = async (selected: any) => {
-    const title = prompt("Enter a title for your event");
-    if (!title) return;
+  const handleAddTask = async (title: string, selected: { dateStr: string }) => {
+    if (!title || !userId) return;
     try {
-      await calendarService.createTask(title, selected.dateStr);
+      await calendarService.createTask(title, selected.dateStr, userId);
       fetchTasks();
     } catch (error) {
       console.error("Error adding task:", error);
     }
   };
 
-  const deleteTask = async (taskId: string) => {
-    if (!taskId) {
-      console.error("No task ID provided");
-      return;
-    }
-
+  const handleDeleteTask = async (taskId: string) => {
+    if (!userId) return;
     try {
-      await calendarService.deleteTask(taskId);
+      await calendarService.deleteTask(taskId, userId);
       fetchTasks();
     } catch (error) {
       console.error("Network error:", error);
+    }
+  };
+
+  const handleDateClick = async (selected: any) => {
+    const title = prompt("Enter a title for your event");
+    if (!title) return;
+    try {
+      await handleAddTask(title, selected);
+    } catch (error) {
+      console.error("Error adding task:", error);
     }
   };
 
@@ -69,21 +78,25 @@ const CalendarPage = () => {
     if (
       confirm(`Are you sure you want to delete the event ${info.event.title}?`)
     ) {
-      deleteTask(info.event.id);
+      handleDeleteTask(info.event.id);
     }
   };
 
   const handleEventDrop = async (info: any) => {
+    if (!userId) return;
     try {
-      await calendarService.updateTask(info.event.id, {
-        title: info.event.title,
-        date: info.event.start.toISOString(),
-        completed: false,
+      const taskId = info.event.id;
+      const newDate = info.event.startStr;
+
+      await calendarService.updateTask(taskId, {
+        date: newDate,
+        userId
       });
+      
       fetchTasks();
     } catch (error) {
-      info.revert();
-      console.error("Update error:", error);
+      console.error("Error updating task date:", error);
+      info.revert(); 
     }
   };
 
@@ -197,7 +210,7 @@ const CalendarPage = () => {
               icon="delete"
               variant="primary"
               size="small"
-              onPress={() => deleteTask(task._id)}
+              onPress={() => handleDeleteTask(task._id)}
             />
           </div>
         )}
@@ -246,6 +259,7 @@ const CalendarPage = () => {
           dateClick={handleDateClick}
           eventClick={handleEventClick}
           eventDrop={handleEventDrop}
+          droppable={true}
           events={tasks.map((task) => ({
             id: task._id,
             title: task.title,

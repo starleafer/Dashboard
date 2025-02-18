@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const CalendarTaskSchema = mongoose.Schema({
+const TaskSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -12,8 +12,16 @@ const CalendarTaskSchema = mongoose.Schema({
   completed: {
     type: Boolean,
     default: false,
-    required: true
+  },
+  userId: {
+    type: String,
+    required: true,
+    index: true
   }
 });
 
-module.exports = mongoose.model("CalendarTask", CalendarTaskSchema);
+mongoose.connection.collections['tasks']?.drop();
+
+const Task = mongoose.model("Task", TaskSchema);
+
+module.exports = Task;

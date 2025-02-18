@@ -1,5 +1,4 @@
 "use client";
-import Header from "@/components/Header";
 import CustomCalendar from "@/components/molecules/CustomCalendar";
 import Stocks from "@/components/Stocks";
 import Todo from "@/components/Todo";

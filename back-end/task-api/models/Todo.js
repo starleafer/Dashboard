@@ -13,6 +13,10 @@ const TodoSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  userId: {
+    type: String,
+    required: true,
+  }
 });
 
 TodoSchema.set('toObject', { getters: true });

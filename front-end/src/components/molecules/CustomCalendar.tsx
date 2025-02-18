@@ -14,6 +14,8 @@ import {
 } from "react-aria-components";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
+import { useSession } from "next-auth/react";
+import { calendarService } from "@/services/calendarService";
 
 interface TodoTask {
   _id: string;
@@ -30,6 +32,8 @@ export const taskEvents = {
 };
 
 const CustomCalendar = () => {
+  const { data: session } = useSession();
+  const userId = session?.user?.email;
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [tasks, setTasks] = useState<TodoTask[]>([]);
   const [newTask, setNewTask] = useState("");
@@ -50,8 +54,13 @@ const CustomCalendar = () => {
   }, []);
 
   useEffect(() => {
+    const fetchTasks = async () => {
+      if (!userId) return;
+      const tasks = await calendarService.fetchTasks(userId);
+      setTasks(tasks);
+    };
     fetchTasks();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -70,78 +79,38 @@ const CustomCalendar = () => {
     };
   }, []);
 
-  const fetchTasks = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/calendar-tasks");
-      const data = await response.json();
-
-      const sortedTasks = data.sort((a: TodoTask, b: TodoTask) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
-        return dateA.getTime() - dateB.getTime();
-      });
-
-      setTasks(sortedTasks);
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-    }
-  };
-
-  const updateTasksAndNotify = (newTasks: TodoTask[]) => {
-    setTasks(newTasks);
-    taskUpdateEvent.dispatchEvent(
-      new CustomEvent("tasksUpdated", { detail: newTasks })
+  const updateTasksAndNotify = async (userId: string) => {
+    if (!userId) return;
+    const tasks = await calendarService.fetchTasks(userId);
+    setTasks(tasks);
+    taskEvents.target.dispatchEvent(
+      new CustomEvent(taskEvents.TASKS_UPDATED, { detail: tasks })
     );
   };
 
-  const addTask = async () => {
-    if (!selectedDate || !newTask.trim()) return;
+  const handleAddTask = async () => {
+    if (!selectedDate || !newTask.trim() || !userId) return;
+    await calendarService.createTask(
+      newTask,
+      selectedDate.toISOString(),
+      userId
+    );
+    await updateTasksAndNotify(userId);
+    setNewTask("");
+  };
 
-    try {
-      const dateToSave = new Date(selectedDate);
-      dateToSave.setHours(0, 0, 0, 0);
-
-      const response = await fetch("http://localhost:5000/calendar-tasks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: newTask,
-          date: dateToSave.toISOString(),
-          completed: false,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create task");
-      }
-
-      const newTaskData = await response.json();
-      updateTasksAndNotify([...tasks, newTaskData]);
-      setNewTask("");
-    } catch (error) {
-      console.error("Error adding task:", error);
+  const handleDeleteTask = async (taskId: string) => {
+    if (!userId) return;
+    const success = await calendarService.deleteTask(taskId, userId);
+    if (success) {
+      await updateTasksAndNotify(userId);
     }
   };
 
-  const deleteTask = async (taskId: string) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/calendar-tasks/${taskId}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      if (response.ok) {
-        updateTasksAndNotify(tasks.filter((task) => task._id !== taskId));
-      } else {
-        throw new Error("Failed to delete task");
-      }
-    } catch (error) {
-      console.error("Error deleting task:", error);
-    }
+  const handleUpdateTask = async (taskId: string, updates: Partial<TodoTask>) => {
+    if (!userId) return;
+    await calendarService.updateTask(taskId, { ...updates, userId });
+    await updateTasksAndNotify(userId);
   };
 
   const editTask = (taskId: string) => {
@@ -150,31 +119,13 @@ const CustomCalendar = () => {
   };
 
   const saveTask = async (taskId: string) => {
-    if (!editText.trim()) return;
+    if (!editText.trim() || !userId) return;
     try {
-      const currentTask = tasks.find((t) => t._id === taskId);
-      if (!currentTask) return;
-
-      const response = await fetch(
-        `http://localhost:5000/calendar-tasks/${taskId}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: editText,
-            completed: currentTask.completed,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to update task");
-      }
-
-      const tasksResponse = await fetch("http://localhost:5000/calendar-tasks");
-      const newTasks = await tasksResponse.json();
-      updateTasksAndNotify(newTasks);
-
+      await calendarService.updateTask(taskId, {
+        title: editText,
+        userId
+      });
+      await updateTasksAndNotify(userId);
       setIsEditing(false);
       setEditText("");
     } catch (error) {
@@ -183,30 +134,16 @@ const CustomCalendar = () => {
   };
 
   const finishTask = async (taskId: string) => {
+    if (!userId) return;
     try {
       const currentTask = tasks.find((task) => task._id === taskId);
       if (!currentTask) return;
 
-      const response = await fetch(
-        `http://localhost:5000/calendar-tasks/${taskId}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: currentTask.title,
-            date: currentTask.date,
-            completed: !currentTask.completed,
-          }),
-        }
-      );
-
-      if (response.ok) {
-        const tasksResponse = await fetch(
-          "http://localhost:5000/calendar-tasks"
-        );
-        const newTasks = await tasksResponse.json();
-        updateTasksAndNotify(newTasks);
-      }
+      await calendarService.updateTask(taskId, {
+        completed: !currentTask.completed,
+        userId
+      });
+      await updateTasksAndNotify(userId);
     } catch (error) {
       console.error("Error completing task:", error);
     }
@@ -370,7 +307,7 @@ const CustomCalendar = () => {
               variant="secondary"
               className="primary"
               size="small"
-              onPress={addTask}
+              onPress={handleAddTask}
             />
           </div>
           {getTasksForDate(selectedDate).length > 0 && (
@@ -415,7 +352,7 @@ const CustomCalendar = () => {
                           className="danger"
                           variant="secondary"
                           size="small"
-                          onPress={() => deleteTask(task._id)}
+                          onPress={() => handleDeleteTask(task._id)}
                         />
                       </>
                     )}

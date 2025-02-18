@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@adobe/react-spectrum": "^3.39.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
@@ -10,10 +11,14 @@
     "@fullcalendar/react": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
     "@mui/material": "^6.1.6",
+    "@react-spectrum/provider": "^3.10.1",
+    "@spectrum-icons/illustrations": "^3.6.18",
+    "@spectrum-icons/workflow": "^4.2.17",
     "apexcharts": "^4.4.0",
     "bcryptjs": "^3.0.0",
     "framer-motion": "^12.4.3",
     "jsonwebtoken": "^9.0.2",
+    "next-auth": "^4.24.11",
     "react-apexcharts": "^1.7.0",
     "recharts": "^2.15.1"
   },
