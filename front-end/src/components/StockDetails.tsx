@@ -21,7 +21,7 @@ const StockDetails = ({ details }: StockDetailsProps) => {
   };
 
   return (
-    <ul className="w-full h-full flex flex-col justify-between divide-y-1">
+    <ul className="w-full h-full flex flex-col justify-between divide-y-1 text-sm">
       {Object.entries(detailsList).map(([key, label]) => (
         <li key={key} className="flex-1 flex justify-between items-center">
           <span>{label}</span>

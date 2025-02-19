@@ -87,16 +87,33 @@ const CalendarPage = () => {
     try {
       const taskId = info.event.id;
       const newDate = info.event.startStr;
+      const currentTask = tasks.find((task) => task._id === taskId);
+      if (!currentTask) return;
 
       await calendarService.updateTask(taskId, {
+        title: currentTask.title,
         date: newDate,
+        completed: currentTask.completed,
         userId
       });
       
-      fetchTasks();
+      await fetchTasks();
     } catch (error) {
       console.error("Error updating task date:", error);
-      info.revert(); 
+      info.revert();
+    }
+  };
+
+  const handleTaskEdit = async (taskId: string, title: string) => {
+    if (!userId) return;
+    try {
+      await calendarService.updateTask(taskId, {
+        title,
+        userId
+      });
+      fetchTasks();
+    } catch (error) {
+      console.error("Error updating task:", error);
     }
   };
 
@@ -110,7 +127,7 @@ const CalendarPage = () => {
   };
 
   const saveTask = async (taskId: string) => {
-    if (!editText.trim()) return;
+    if (!editText.trim() || !userId) return;
     try {
       const currentTask = tasks.find((task) => task._id === taskId);
       if (!currentTask) return;
@@ -119,8 +136,10 @@ const CalendarPage = () => {
         title: editText,
         date: currentTask.date,
         completed: currentTask.completed,
+        userId
       });
-      fetchTasks();
+      
+      await fetchTasks();
       setIsEditing(false);
       setEditText("");
     } catch (error) {

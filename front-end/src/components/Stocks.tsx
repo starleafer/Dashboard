@@ -105,8 +105,12 @@ const Stocks: React.FC<StocksProps> = ({
   };
 
   return (
-    <div className={`col-span-4 m-5 py-5 h-[calc(100vh-350px)] bg-light-component ${shadow ? "drop-shadow-xl drop-shadow-gray-500" : ""} dark:bg-dark-component rounded-md`}>
-      <div className="col-span-3 ml-3 row-span-1 mb-3 flex justify-start p-3">  
+    <div
+      className={`col-span-4 m-5 py-5 h-[calc(100vh-350px)] bg-light-component ${
+        shadow ? "drop-shadow-xl drop-shadow-gray-500" : ""
+      } dark:bg-dark-component rounded-md`}
+    >
+      <div className="col-span-3 ml-3 row-span-1 mb-3 flex justify-start p-3">
         <h1 className="text-2xl font-bold mr-10 text-primary">
           {selectedStock}
         </h1>

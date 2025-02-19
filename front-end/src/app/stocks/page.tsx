@@ -7,6 +7,7 @@ import { getLatestNews } from "@/services/newsService";
 import { DialogTrigger } from "react-aria-components";
 import NewsModal from "@/components/atoms/NewsModal";
 import { Article as NewsArticle } from "@/types/newsTypes";
+import { useStockQuote } from '@/hooks/useStockQuote';
 
 const StocksPage = () => {
   const [selectedStocks, setSelectedStocks] = useState<string[]>([
@@ -36,7 +37,7 @@ const StocksPage = () => {
       <div className="w-full lg:w-1/3 flex flex-col gap-6">
         <div className="bg-white dark:bg-dark-component p-5 rounded-md drop-shadow-xl">
           <h2 className="text-xl font-bold text-primary mb-4">Watchlist</h2>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-3">
             {selectedStocks.map((symbol) => (
               <StockCard key={symbol} symbol={symbol} />
             ))}
@@ -74,31 +75,35 @@ const StocksPage = () => {
   );
 };
 
-const StockCard = ({ symbol }: { symbol: string }) => {
-  const stockData = mockStockQuote[symbol] || mockStockQuote["AAPL"];
-  const priceChange = parseFloat(stockData["09. change"]);
-  const changePercent = parseFloat(
-    stockData["10. change percent"].replace("%", "")
-  );
+const mockStockData = {
+  'AAPL': {
+    price: 180.25,
+    change: 2.34,
+    changePercent: 1.35
+  },
+  'MSFT': {
+    price: 402.15,
+    change: -1.56,
+    changePercent: -0.42
+  },
+  'GOOGL': {
+    price: 142.65,
+    change: 0.84,
+    changePercent: 0.58
+  }
+};
 
+const StockCard = ({ symbol }: { symbol: string }) => {
+  const stockData = mockStockData[symbol as keyof typeof mockStockData];
+  
   return (
-    <div className="p-4 border border-primary rounded-md">
+    <div className="bg-light-component dark:bg-dark-component p-4 rounded-md">
       <div className="flex justify-between items-center">
-        <div>
-          <h3 className="font-bold text-primary">{symbol}</h3>
-          <p className="text-sm text-shade">{stockData["01. symbol"]}</p>
-        </div>
-        <div className="text-right">
-          <p className="font-bold">${stockData["05. price"]}</p>
-          <p
-            className={`text-sm ${
-              priceChange >= 0 ? "text-completed" : "text-danger"
-            }`}
-          >
-            {priceChange >= 0 ? "+" : ""}
-            {priceChange.toFixed(2)} ({changePercent.toFixed(2)}%)
-          </p>
-        </div>
+        <span className="font-bold">{symbol}</span>
+        <span className="font-medium">${stockData.price.toFixed(2)}</span>
+        <span className={`${stockData.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+          {stockData.change >= 0 ? '+' : ''}{stockData.change.toFixed(2)} ({stockData.changePercent.toFixed(2)}%)
+        </span>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ if (!ALPHA_VANTAGE_API_KEY) {
   );
 }
 
-const BASE_URL = "https://www.alphavantage.co/query";
+const BASE_URL = "https://www.alphavantage.co";
 const API_KEY = ALPHA_VANTAGE_API_KEY;
 
 export interface StockSearchResult {
@@ -34,60 +34,34 @@ export interface TimeSeriesData {
   y: number;
 }
 
-export const searchStocks = async (query: string): Promise<StockSearchResult[]> => {
+export const searchSymbols = async (query: string): Promise<StockSearchResult[]> => {
   try {
-    const url = `${BASE_URL}?function=SYMBOL_SEARCH&keywords=${query}&apikey=${API_KEY}`;
-    console.log('Searching stocks:', url);
+    const url = `${BASE_URL}/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${API_KEY}`;
+    console.log("Searching symbols with URL:", url);
 
     const response = await fetch(url);
     const data = await response.json();
     
-    console.log('Search response:', data);
+    console.log("Search API response:", data);
 
-    if (data.Information?.includes('API call frequency')) {
+    if (data.Note || data.Information?.includes('API call frequency')) {
       console.warn('API rate limit reached');
-      return [
-        {
-          symbol: 'AAPL',
-          name: 'Apple Inc',
-          type: 'Equity',
-          region: 'United States',
-          currency: 'USD'
-        },
-        {
-          symbol: 'MSFT',
-          name: 'Microsoft Corporation',
-          type: 'Equity',
-          region: 'United States',
-          currency: 'USD'
-        },
-        {
-          symbol: 'GOOGL',
-          name: 'Alphabet Inc',
-          type: 'Equity',
-          region: 'United States',
-          currency: 'USD'
-        }
-      ].filter(stock => 
-        stock.symbol.toLowerCase().includes(query.toLowerCase()) ||
-        stock.name.toLowerCase().includes(query.toLowerCase())
-      );
-    }
-
-    if (!data.bestMatches) {
-      console.log('No matches found');
       return [];
     }
 
-    return data.bestMatches.map((match: any) => ({
-      symbol: match['1. symbol'],
-      name: match['2. name'],
-      type: match['3. type'],
-      region: match['4. region'],
-      currency: match['8. currency']
-    }));
+    if (data.bestMatches) {
+      return data.bestMatches.map((match: any) => ({
+        symbol: match["1. symbol"],
+        name: match["2. name"],
+        type: match["3. type"],
+        region: match["4. region"],
+        currency: match["8. currency"],
+      }));
+    }
+    
+    return [];
   } catch (error) {
-    console.error('Error searching stocks:', error);
+    console.error("Error searching symbols:", error);
     return [];
   }
 };
@@ -103,19 +77,18 @@ export const getCompanyOverview = async (
 
 export const getStockQuote = async (symbol: string) => {
   try {
-    const url = `${BASE_URL}?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`;
-    console.log("Fetching quote:", url);
+    const url = `${BASE_URL}/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`;
+    console.log("Fetching quote for:", symbol);
 
     const response = await fetch(url);
     const data = await response.json();
 
-    console.log("Quote response:", data);
+    console.log("Quote response for", symbol, ":", data);
 
-    if (data.Information?.includes('API call frequency')) {
-      console.warn('API rate limit reached, using mock data');
-      const mockPrice = symbol === 'AAPL' ? 180 : symbol === 'MSFT' ? 400 : 140;
+    if (data.Note || data.Information?.includes('API call frequency')) {
+      console.warn('API rate limit reached, using mock data for', symbol);
       return {
-        price: mockPrice + Math.random() * 10 - 5,
+        price: symbol === 'AAPL' ? 180 : symbol === 'MSFT' ? 400 : 140,
         change: Math.random() * 4 - 2,
         changePercent: Math.random() * 2 - 1,
       };
@@ -123,12 +96,7 @@ export const getStockQuote = async (symbol: string) => {
 
     const quote = data['Global Quote'];
     if (!quote) {
-      console.log("No quote data found");
-      return {
-        price: 0,
-        change: 0,
-        changePercent: 0,
-      };
+      throw new Error('No quote data found');
     }
 
     return {
@@ -148,52 +116,51 @@ export const getStockQuote = async (symbol: string) => {
 
 export const getHistoricalData = async (symbol: string): Promise<TimeSeriesData[]> => {
   try {
-    const url = `${BASE_URL}?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${API_KEY}`;
-    console.log("Fetching historical data:", url);
-
-    const response = await fetch(url);
-    const data = await response.json();
-
-    console.log("Historical response:", data);
-
-    console.warn('Using mock data for historical prices');
+    // Generate mock historical data
     const mockData: TimeSeriesData[] = [];
     const basePrice = 
       symbol === 'AAPL' ? 180 : 
       symbol === 'MSFT' ? 400 : 
-      symbol === 'GOOGL' ? 140 :
-      symbol === 'IBM' ? 180 : 100;
-    
+      symbol === 'GOOGL' ? 140 : 100;
+
+    // Generate 30 days of mock data
     for (let i = 29; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
       mockData.push({
         x: date,
-        y: basePrice + (Math.random() * 20 - 10) 
+        y: basePrice + (Math.random() * 20 - 10) // Random price variation
       });
     }
 
-    console.log('Generated mock data:', mockData);
     return mockData;
-
-    // Real API code (commented out for now)
-    /*
-    const timeSeriesData = data["Time Series (Daily)"];
-    if (!timeSeriesData) {
-      console.log("No historical data found");
-      return [];
-    }
-
-    return Object.entries(timeSeriesData)
-      .map(([date, values]: [string, any]) => ({
-        x: new Date(date),
-        y: parseFloat(values["4. close"] || 0),
-      }))
-      .reverse()
-      .slice(0, 30);
-    */
   } catch (error) {
-    console.error("Error fetching historical data:", error);
+    console.error("Error generating mock data:", error);
+    return [];
+  }
+};
+
+export const searchStocks = async (query: string): Promise<StockSearchResult[]> => {
+  try {
+    const url = `${BASE_URL}/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${API_KEY}`;
+    console.log("Full URL:", url);
+
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log("Raw API response:", data);
+
+    if (data.bestMatches) {
+      return data.bestMatches.map((match: any) => ({
+        symbol: match["1. symbol"],
+        name: match["2. name"],
+        type: match["3. type"],
+        region: match["4. region"],
+        currency: match["8. currency"],
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error("Search error details:", error);
     return [];
   }
 };

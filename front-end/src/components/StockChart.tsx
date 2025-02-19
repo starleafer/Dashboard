@@ -1,54 +1,43 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import {
-  getStockQuote,
-  getHistoricalData,
-} from "@/services/alphaVantageService";
 import { ApexOptions } from "apexcharts";
 import { useTheme } from '@/context/ThemeContext';
-interface StockData {
-  price: number;
-  change: number;
-  changePercent: number;
-}
 
 interface TimeSeriesData {
   x: Date;
   y: number;
 }
 
+const mockStockData = {
+  'AAPL': { basePrice: 180 },
+  'MSFT': { basePrice: 400 },
+  'GOOGL': { basePrice: 140 }
+};
+
 const StockChart = ({ symbol }: { symbol: string }) => {
-  const [stockData, setStockData] = useState<StockData | null>(null);
-  const [historicalData, setHistoricalData] = useState<TimeSeriesData[]>([]);
+  const [data, setData] = useState<TimeSeriesData[]>([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
 
-
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        console.log("Fetching data for symbol:", symbol);
-        const [quote, history] = await Promise.all([
-          getStockQuote(symbol),
-          getHistoricalData(symbol),
-        ]);
-        console.log("Received quote:", quote);
-        console.log("Received history:", history);
+    const generateMockData = () => {
+      const basePrice = mockStockData[symbol as keyof typeof mockStockData]?.basePrice || 100;
+      const mockData: TimeSeriesData[] = [];
 
-        setStockData(quote);
-        if (history && history.length > 0) {
-          setHistoricalData(history);
-        } else {
-          console.error("No historical data received");
-        }
-      } catch (error) {
-        console.error("API Error:", error);
-      } finally {
-        setLoading(false);
+      for (let i = 29; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        mockData.push({
+          x: date,
+          y: basePrice + (Math.random() * 20 - 10)
+        });
       }
+
+      setData(mockData);
+      setLoading(false);
     };
-    fetchData();
+
+    generateMockData();
   }, [symbol]);
 
   const chartOptions: ApexOptions = {
@@ -108,7 +97,7 @@ const StockChart = ({ symbol }: { symbol: string }) => {
     );
   }
 
-  if (!historicalData.length) {
+  if (!data.length) {
     return (
       <div className="h-[350px] flex items-center justify-center">
         No data available
@@ -117,28 +106,18 @@ const StockChart = ({ symbol }: { symbol: string }) => {
   }
 
   return (
-    <div className="p-4 ">
+    <div className="p-4">
       <div className="flex justify-between mb-4">
         <h2 className="text-xl font-semibold text-shade dark:text-dark-text">
           {symbol} Stock Price
         </h2>
-        {stockData && (
-          <div
-            className={`text-lg ${
-              stockData.change >= 0 ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            ${stockData.price.toFixed(2)} ({stockData.changePercent.toFixed(2)}
-            %)
-          </div>
-        )}
       </div>
       <ReactApexChart
         options={chartOptions}
         series={[
           {
             name: symbol,
-            data: historicalData,
+            data: data,
           },
         ]}
         type="line"

@@ -9,7 +9,7 @@ interface SearchResultsProps {
 const SearchResults = ({ results, onSelect }: SearchResultsProps) => {
   console.log('Rendering search results:', results);
   return (
-    <ul className="absolute top-full mt-1 border-2 overflow-y-scroll w-full z-10 bg-dark custom-scrollbar">
+    <ul className="absolute top-full mt-1 border-2 overflow-y-scroll w-full z-10 bg-dark custom-scrollbar text-sm">
       {results.map((item) => (
         <li
           key={item.symbol}
