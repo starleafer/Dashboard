@@ -2,31 +2,31 @@ This project is a comprehensive financial and data visualization dashboard that 
 While stock tracking is a key feature, the dashboard offers much more:
 
 Key Features:
-  Stock Market Tracking
-  Real-time stock searches and quotes
-  Company overviews and financial details
-  Interactive price charts
+  Stock Market Tracking,
+  Real-time stock searches and quotes,
+  Company overviews and financial details,
+  Interactive price charts,
   Historical data visualization
   
-Weather Integration
-  Current weather conditions
-  Weather forecasts
+Weather Integration:
+  Current weather conditions,
+  Weather forecasts,
   Location-based weather data
   
-Task Management
-  Todo list functionality
-  Task organization and tracking
+Task Management:
+  Todo list functionality,
+  Task organization and tracking,
   Task completion status
   
-Data Visualization
-  Interactive charts and graphs
-  Multiple visualization types
+Data Visualization:
+  Interactive charts and graphs,
+  Multiple visualization types,
   Real-time data updates
   
 The dashboard uses a modern tech stack:
-  Next.js for the frontend
-  TypeScript for type safety
-  Tailwind CSS for responsive styling
+  Next.js for the frontend,
+  TypeScript for type safety,
+  Tailwind CSS for responsive styling,
   Multiple API integrations (Alpha Vantage for stocks, weather APIs, etc.)
   
 The interface features a modular design where different components (stocks, weather, tasks, etc.) can be arranged and viewed simultaneously.
